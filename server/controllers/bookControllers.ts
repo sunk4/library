@@ -1,0 +1,37 @@
+import Book from '../src/models/Book'
+import Library from '../src/models/Library'
+import { Request, Response } from 'express'
+import CustomError from '../src/errors/Custom-error'
+
+const createBookAndItToLibrary = async (req: Request, res: Response) => {
+  const { bookName, description } = req.body
+  const { id } = req.params
+
+  if (!bookName || !description) {
+    throw new CustomError('Please provide all values', 400)
+  }
+
+  const book = await Book.create(req.body)
+
+  const library = await Library.findOne({ _id: id })
+
+  if (!library) {
+    throw new CustomError(`Library with id: ${id} does not exist`, 404)
+  }
+
+  const newBookInLibrary = await Library.findOneAndUpdate({
+    _id: id,
+  },
+  {
+    $push: {
+    books: book._id
+}
+  },{
+    new: true,
+    runValidators: true,
+  })
+
+  res.status(200).json({ newBookInLibrary })
+}
+
+export { createBookAndItToLibrary }

@@ -11,13 +11,13 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please provide first name'],
       minlength: 1,
-      maxlength: 50,
+      maxlength: 25,
     },
     lastName: {
       type: String,
       required: [true, 'Please provide last name'],
       minlength: 1,
-      maxlength: 500,
+      maxlength: 40,
     },
   },
   { timestamps: true }

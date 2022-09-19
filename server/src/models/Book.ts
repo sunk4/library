@@ -2,7 +2,8 @@ import mongoose from 'mongoose'
 
 interface Book {
   bookName: string,
-  description:string
+  description: string
+  amount:number
 }
 
 const BookSchema = new mongoose.Schema(
@@ -19,6 +20,10 @@ const BookSchema = new mongoose.Schema(
       minlength: 1,
       maxlength: 500,
     },
+    amount: {
+      type: Number,
+      default:1
+    }
   },
   { timestamps: true }
 )
