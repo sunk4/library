@@ -1,11 +1,9 @@
 import { StatusCodes } from 'http-status-codes'
-import { Request, Response} from "express"
+import { Response } from 'express'
 
 const errorHandlerMiddleware = (
-  err:any,
-  req: Request,
-  res: Response,
-
+  err: any,
+  res: Response
 ) => {
   let customError = {
     // set default
@@ -14,7 +12,7 @@ const errorHandlerMiddleware = (
   }
   if (err.name === 'ValidationError') {
     customError.msg = Object.values(err.errors)
-      .map((item:any) => item.message)
+      .map((item: any) => item.message)
       .join(',')
     customError.statusCode = 400
   }

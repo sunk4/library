@@ -2,9 +2,10 @@ import { StatusCodes } from 'http-status-codes'
 import CustomApiError from './custom-api-error.js'
 
 class BadRequestError extends CustomApiError {
-  constructor(message:string) {
+  statusCode = StatusCodes.BAD_REQUEST
+  constructor(message: string, statusCode: number) {
     super(message)
-    this.statusCode = StatusCodes.BAD_REQUEST
+    this.statusCode = statusCode
   }
 }
 
