@@ -1,8 +1,9 @@
 import mongoose from "mongoose"
-
+import validator from "validator"
 interface Library {
   libraryName: string
   address: string
+  phoneNumber:string
 }
 
 const LibrarySchema = new mongoose.Schema(
@@ -18,6 +19,15 @@ const LibrarySchema = new mongoose.Schema(
       required: [true, 'Please provide address'],
       minlength: 1,
       maxlength: 100,
+    },
+    phoneNumber: {
+      type: String,
+      unique: true,
+      required: [true, 'Please provide phone number'],
+      validate: {
+        validator: validator.isMobilePhone,
+        message: 'Please provide valid phone number',
+      },
     },
   },
   { timestamps: true }

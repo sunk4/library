@@ -9,7 +9,7 @@ import morgan from 'morgan'
 
 import connectDB from './db/connectDB'
 
-import bookRouter from './routes/bookRoutes'
+import bookRouter from './routes/bookRoutes' 
 import libraryRouter from './routes/libraryRoutes'
 import userRouter from './routes/userRoutes'
 
@@ -25,10 +25,6 @@ app.use('/api/v1/book', bookRouter)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
-
-app.get('/', (req: Request, res: Response) => {
-  res.send('hello')
-})
 
 const port = process.env.PORT || 5000
 

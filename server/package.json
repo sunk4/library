@@ -6,7 +6,7 @@
   "scripts": {
     "startServer": "node dist/app.js",
     "dev": "nodemon src/app.ts --ignore client",
-    "client": "npm start --prefix client",
+    "client": "cd .. && npm start --prefix client",
     "build": "tsc -p .",
     "start": "concurrently --kill-others-on-fail \"npm run dev\" \" npm run client\""
   },
@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "@types/mongoose": "^5.11.97",
-    "@types/morgan": "^1.9.3"
+    "@types/morgan": "^1.9.3",
+    "@types/validator": "^13.7.6"
   }
 }
