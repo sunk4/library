@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
 
 interface Book {
   bookName: string,
@@ -22,8 +22,14 @@ const BookSchema = new mongoose.Schema(
     },
     amount: {
       type: Number,
-      default:1
-    }
+      default: 1,
+    },
+    users: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
   },
   { timestamps: true }
 )
