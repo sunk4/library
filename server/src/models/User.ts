@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 interface User {
   bookName: string
-  description: string
+  lastName: string
 }
 
 const UserSchema = new mongoose.Schema(

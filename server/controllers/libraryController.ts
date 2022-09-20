@@ -39,7 +39,7 @@ const updateLibrary = async (req: Request, res: Response) => {
 
 const getSingleLibrary = async (req: Request, res: Response) => {
   const { id } = req.params
-  const library = await Library.findOne({ _id: id }).populate('books')
+  const library = await Library.findOne({ _id: id }).populate('books',"users")
 
   res.status(200).json({ library })
 }
@@ -58,7 +58,7 @@ const deleteLibrary = async (req: Request, res: Response) => {
 }
 
 const getAllLibraries = async (req: Request, res: Response) => {
-  const libraries = await Library.find({}).populate('books')
+  const libraries = await Library.find({}).populate('books users')
 
   res.status(200).json({ libraries })
 }

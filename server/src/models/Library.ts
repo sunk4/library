@@ -6,7 +6,7 @@ interface Library {
   address: string
   phoneNumber: string
   book: mongoose.Types.ObjectId[]
- 
+  user: mongoose.Types.ObjectId[]
 }
 
 const LibrarySchema = new mongoose.Schema(
@@ -38,7 +38,12 @@ const LibrarySchema = new mongoose.Schema(
         ref: 'Book',
       },
     ],
-  
+    users: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
   },
   { timestamps: true }
 )
