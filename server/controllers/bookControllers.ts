@@ -48,4 +48,23 @@ const deleteBookFromLibrary = async (req: Request, res: Response) => {
   res.status(200).json({ msg: `Book with ${id} was removed` })
 }
 
-export { createBookAndItToLibrary, deleteBookFromLibrary }
+const updateAmountsOfBooks = async (req: Request, res: Response) => {
+  const { id } = req.params
+  const { amount } = req.body
+  console.log(amount);
+  
+  const book = await Book.findOne({ _id: id })
+  if (!book) {
+    throw new CustomError(`Book with id: ${id} does not exist`, 404)
+  }
+  if (amount < 0) {
+    throw new CustomError(`Amount have to be higher or equal to zero`, 400)
+  } else {
+    book.amount = amount
+    book.save()
+  }
+
+  res.status(200).json({ book })
+}
+
+export { createBookAndItToLibrary, deleteBookFromLibrary, updateAmountsOfBooks }
