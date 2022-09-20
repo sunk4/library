@@ -98,13 +98,44 @@ const borrowBookByUser = async (req: Request, res: Response) => {
    )
    if (!book) {
      throw new CustomError(`Book with id: ${bookId} does not exist`, 404)
-  }
-
-  
-
- 
+  } 
   
    res.status(200).json({ book })
+}
+
+const returnTheBookByUser = async (req: Request, res: Response) => { 
+  
+    const { bookId, userId } = req.params
+
+    const user = await User.findOne({ _id: userId })
+
+    if (!user) {
+      throw new CustomError(`User with id: ${userId} does not exist`, 404)
+    }
+
+    const book = await Book.findOneAndUpdate(
+      {
+        _id: bookId,
+      },
+      {
+        $pull: {
+          users: userId,
+        },
+        $inc: {
+          amount: 1,
+        },
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    )
+    if (!book) {
+      throw new CustomError(`Book with id: ${bookId} does not exist`, 404)
+    }
+
+    res.status(200).json({ book })
+  
 }
 
 export {
@@ -112,4 +143,5 @@ export {
   deleteBookFromLibrary,
   updateAmountsOfBooks,
   borrowBookByUser,
+  returnTheBookByUser,
 }
