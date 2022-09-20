@@ -1,6 +1,6 @@
 import Book from '../src/models/Book'
 import Library from '../src/models/Library'
-import { Request, Response } from 'express'
+import e, { Request, Response } from 'express'
 import CustomError from '../src/errors/Custom-error'
 import User from '../src/models/User'
 
@@ -53,7 +53,6 @@ const updateAmountsOfBooks = async (req: Request, res: Response) => {
   const { id } = req.params
   const { amount } = req.body
 
-  
   const book = await Book.findOne({ _id: id })
   if (!book) {
     throw new CustomError(`Book with id: ${id} does not exist`, 404)
@@ -68,62 +67,48 @@ const updateAmountsOfBooks = async (req: Request, res: Response) => {
   res.status(200).json({ book })
 }
 
-const borrowBookByUser = async (req: Request, res: Response) => { 
+const borrowBookByUser = async (req: Request, res: Response) => {
   const { bookId, userId } = req.params
-  
-  const user = await User.findOne({ _id: userId })
-  
+
+  const user = await User.findOneAndUpdate(
+    { _id: userId },
+    {
+      $push: {
+        books: bookId,
+      },
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  )
+
   if (!user) {
     throw new CustomError(`User with id: ${userId} does not exist`, 404)
   }
 
-  
+  const bookCount:any = await Book.findOne({ _id: bookId })
+ 
 
-   const book = await Book.findOneAndUpdate(
-     {
-       _id: bookId,
-     },
-     {
-       $push: {
-         users: userId,
-       },
-       $inc: {
-         amount: -1
-       }
-     },
-     {
-       new: true,
-       runValidators: true,
-     }
-   )
-   if (!book) {
-     throw new CustomError(`Book with id: ${bookId} does not exist`, 404)
-  } 
-  
-   res.status(200).json({ book })
-}
-
-const returnTheBookByUser = async (req: Request, res: Response) => { 
-  
-    const { bookId, userId } = req.params
-
-    const user = await User.findOne({ _id: userId })
-
-    if (!user) {
-      throw new CustomError(`User with id: ${userId} does not exist`, 404)
-    }
-
+  if (bookCount?.amount < 0) {
+    throw new CustomError(`No stock of this book in warehouse`, 404)
+  } else {
     const book = await Book.findOneAndUpdate(
       {
         _id: bookId,
       },
       {
-        $pull: {
+        $push: {
           users: userId,
         },
-        $inc: {
-          amount: 1,
-        },
+        $max: [
+          0,
+          {
+            $inc: {
+              amount: -1,
+            },
+          },
+        ],
       },
       {
         new: true,
@@ -133,9 +118,46 @@ const returnTheBookByUser = async (req: Request, res: Response) => {
     if (!book) {
       throw new CustomError(`Book with id: ${bookId} does not exist`, 404)
     }
-
     res.status(200).json({ book })
-  
+  }
+}
+
+const returnTheBookByUser = async (req: Request, res: Response) => {
+  const { bookId, userId } = req.params
+  const user = await User.findOne({ _id: userId })
+
+  if (!user) {
+    throw new CustomError(`User with id: ${userId} does not exist`, 404)
+  }
+  const book = await Book.findOneAndUpdate(
+    {
+      _id: bookId,
+    },
+    {
+      $pull: {
+        users: userId,
+      },
+      $inc: {
+        amount: 1,
+      },
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  )
+  if (!book) {
+    throw new CustomError(`Book with id: ${bookId} does not exist`, 404)
+  }
+
+  res.status(200).json({ book })
+}
+
+const getSingleBook = async (req: Request, res: Response) => {
+  const { id } = req.params
+  const book = await Book.findOne({ _id: id }).populate('users')
+
+  res.status(200).json({ book })
 }
 
 export {
@@ -144,4 +166,5 @@ export {
   updateAmountsOfBooks,
   borrowBookByUser,
   returnTheBookByUser,
+  getSingleBook,
 }

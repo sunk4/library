@@ -20,7 +20,7 @@ app.use(morgan('tiny'))
 app.use(express.json())
 
 app.use('/api/v1/library', libraryRouter)
-app.use('/api/v1/users', userRouter)
+app.use('/api/v1/user', userRouter)
 app.use('/api/v1/book', bookRouter)
 
 app.use(notFoundMiddleware)

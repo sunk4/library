@@ -1,8 +1,9 @@
-import mongoose from 'mongoose'
+import mongoose,{Schema} from 'mongoose'
 
 interface User {
   bookName: string
   lastName: string
+  books: mongoose.Types.ObjectId[]
 }
 
 const UserSchema = new mongoose.Schema(
@@ -19,6 +20,12 @@ const UserSchema = new mongoose.Schema(
       minlength: 1,
       maxlength: 40,
     },
+    books: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Book',
+      },
+    ],
   },
   { timestamps: true }
 )

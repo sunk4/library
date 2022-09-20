@@ -5,8 +5,8 @@ interface Library {
   libraryName: string
   address: string
   phoneNumber: string
-  book: mongoose.Types.ObjectId[]
-  user: mongoose.Types.ObjectId[]
+  books: mongoose.Types.ObjectId[]
+  users: mongoose.Types.ObjectId[]
 }
 
 const LibrarySchema = new mongoose.Schema(

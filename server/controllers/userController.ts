@@ -56,7 +56,14 @@ const editUserInLibrary = async (req: Request, res: Response) => {
     throw new CustomError('Please provide all values', 400)
   }
 
-  const user = await User.findOneAndUpdate({ _id: id }, { firstName, lastName })
+  const user = await User.findOneAndUpdate(
+    { _id: id },
+    { firstName, lastName },
+    {
+      new: true,
+      runValidators: true,
+    }
+  )
   if (!user) {
     throw new CustomError(`User with id: ${id} does not exist`, 404)
   }
@@ -64,8 +71,20 @@ const editUserInLibrary = async (req: Request, res: Response) => {
   res.status(200).json({ msg: `User with ${id} was updated`, user })
 }
 
+const getSingleUser = async (req: Request, res: Response) => {
+  const { id } = req.params
+
+  const user = await User.find({ _id: id }).populate('books', '-users')
+  if (!user) {
+    throw new CustomError(`User with id: ${id} does not exist`, 404)
+  }
+
+  res.status(200).json({ user })
+}
+
 export {
   createStudentAndAddHimToLibrary,
   removeUserFromLibrary,
   editUserInLibrary,
+  getSingleUser,
 }

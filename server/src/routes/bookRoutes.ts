@@ -6,16 +6,16 @@ import {
   updateAmountsOfBooks,
   borrowBookByUser,
   returnTheBookByUser,
+  getSingleBook,
 } from '../../controllers/bookControllers'
 
-router.route('/').get()
 router.route('/book/:id').post(createBookAndItToLibrary)
 router.route('/borrow/:bookId/user/:userId').patch(borrowBookByUser)
 router.route('/return/:bookId/user/:userId').patch(returnTheBookByUser)
 
 router
   .route('/:id')
-  .get()
+  .get(getSingleBook)
   .patch(updateAmountsOfBooks)
   .delete(deleteBookFromLibrary)
 

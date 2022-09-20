@@ -1,10 +1,10 @@
 import mongoose, { Schema } from 'mongoose'
 
-interface Book {
-  bookName: string,
+ interface Book {
+  bookName: string
   description: string
-  amount:number
-} 
+  amount: number
+}
 
 const BookSchema = new mongoose.Schema(
   {
