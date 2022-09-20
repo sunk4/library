@@ -4,7 +4,7 @@ interface Book {
   bookName: string,
   description: string
   amount:number
-}
+} 
 
 const BookSchema = new mongoose.Schema(
   {

@@ -1,12 +1,12 @@
-import mongoose from "mongoose"
-import validator from "validator"
+import mongoose, { Schema } from 'mongoose'
+import validator from 'validator'
 
 interface Library {
   libraryName: string
   address: string
   phoneNumber: string
-  book: mongoose.Types.ObjectId,      
-
+  book: mongoose.Types.ObjectId[]
+ 
 }
 
 const LibrarySchema = new mongoose.Schema(
@@ -32,11 +32,13 @@ const LibrarySchema = new mongoose.Schema(
         message: 'Please provide valid phone number',
       },
     },
-    books: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref:"Book"
-    },
-   
+    books: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Book',
+      },
+    ],
+  
   },
   { timestamps: true }
 )

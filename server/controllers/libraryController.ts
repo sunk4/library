@@ -23,16 +23,14 @@ const updateLibrary = async (req: Request, res: Response) => {
   }
 
   const { libraryName, address, phoneNumber } = req.body
-  
+
   if (!libraryName || !address || !phoneNumber) {
     throw new CustomError('Please provide all values', 400)
   }
 
-
   library.libraryName = libraryName
   library.address = address
   library.phoneNumber = phoneNumber
-
 
   library.save()
 
@@ -41,29 +39,29 @@ const updateLibrary = async (req: Request, res: Response) => {
 
 const getSingleLibrary = async (req: Request, res: Response) => {
   const { id } = req.params
-  const library = await Library.findOne({ _id: id })
+  const library = await Library.findOne({ _id: id }).populate('books')
 
   res.status(200).json({ library })
 }
 
-const deleteLibrary = async (req: Request, res: Response) => { 
+const deleteLibrary = async (req: Request, res: Response) => {
   const { id } = req.params
   const library = await Library.findOne({ _id: id })
 
-    if (!library) {
-      throw new CustomError(`Library with ${id} does not exist`, 404)
+  if (!library) {
+    throw new CustomError(`Library with ${id} does not exist`, 404)
   }
-  
+
   await Library.deleteOne({ _id: id })
-  
-res.status(202).json("Library was removed")
+
+  res.status(202).json('Library was removed')
 }
 
 const getAllLibraries = async (req: Request, res: Response) => {
-const libraries = await Library.find({})
+  const libraries = await Library.find({}).populate('books')
 
   res.status(200).json({ libraries })
- }
+}
 
 export {
   createLibrary,

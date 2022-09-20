@@ -19,19 +19,33 @@ const createBookAndItToLibrary = async (req: Request, res: Response) => {
     throw new CustomError(`Library with id: ${id} does not exist`, 404)
   }
 
-  const newBookInLibrary = await Library.findOneAndUpdate({
-    _id: id,
-  },
-  {
-    $push: {
-    books: book._id
-}
-  },{
-    new: true,
-    runValidators: true,
-  })
+  const newBookInLibrary = await Library.findOneAndUpdate(
+    {
+      _id: id,
+    },
+    {
+      $push: {
+        books: book._id,
+      },
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  )
 
   res.status(200).json({ newBookInLibrary })
 }
 
-export { createBookAndItToLibrary }
+const deleteBookFromLibrary = async (req: Request, res: Response) => {
+  const { id } = req.params
+
+  const book = await Book.findOneAndDelete({ _id: id })
+  if (!book) {
+    throw new CustomError(`Book with id: ${id} does not exist`, 404)
+  }
+
+  res.status(200).json({ msg: `Book with ${id} was removed` })
+}
+
+export { createBookAndItToLibrary, deleteBookFromLibrary }
