@@ -18,6 +18,24 @@ export const getAllLibrariesAsync = createAsyncThunk(
   'libraries/getAllLibrariesAsync',
   async () => {
     const response = await libraryApi.get('/library')
+
+    
+    return response.data
+  }
+)
+
+
+
+export const createLibraryAsync = createAsyncThunk(
+  'libraries/createLibraryAsync',
+  async (data: any) => {
+    const { libraryName, address, phoneNumber } = data
+     
+    const response = await libraryApi.post('/library', {
+      libraryName,
+      address,
+      phoneNumber,
+    })
     return response.data
   }
 )
@@ -33,6 +51,12 @@ const librarySlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getAllLibrariesAsync.fulfilled, (state, action) => {
       state.libraries = action.payload
+    })
+    builder.addCase(createLibraryAsync.fulfilled, (state, action) => {
+      console.log(state.libraries);      
+      console.log(action.payload);
+      
+      state.libraries = [...state.libraries, action.payload] 
     })
   },
 })

@@ -20,7 +20,7 @@ const Libraries: React.FunctionComponent<IAppProps> = (props) => {
           <p>{address}</p>
           <p>{phoneNumber}</p>
         </div>
-        <p>Number of books: {books.length}</p>
+        <p>Number of books: {books?.length}</p>
         <button>Edit Library</button>
       </div>
     )

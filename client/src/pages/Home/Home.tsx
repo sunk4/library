@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Wrapper from './Wrapper'
 import Libraries from './components/Libraries/Libraries'
 import { useAppDispatch, useAppSelector } from '../../features/store.hooks'
 import { getAllLibrariesAsync } from '../../features/libraries/librarySlice'
-
+import FormCreateLibrary from './components/Libraries/FormCreateLibrary/FormCreateLibrary'
 
 interface IAppProps {}
 
@@ -13,14 +13,18 @@ const Home: React.FunctionComponent<IAppProps> = (props) => {
   useEffect(() => {
     dispatch(getAllLibrariesAsync())
   }, [dispatch])
-  
+
+  const [showCreateForm, setShowCreateForm] = useState(false)
+
   return (
     <Wrapper>
       <section className="header">
         <h1>List of Libraries</h1>
-        <button>Create a library</button>
+        <button onClick={() => setShowCreateForm((prev) => !prev)}>
+          {!showCreateForm ? "Create a library": "Back to all libraries" }
+        </button>
       </section>
-      <Libraries />
+      {!showCreateForm ? <Libraries /> : <FormCreateLibrary />}
     </Wrapper>
   )
 }

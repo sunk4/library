@@ -10,7 +10,7 @@ const createLibrary = async (req: Request, res: Response) => {
   }
 
   const library = await Library.create(req.body)
-  res.status(200).json({ library })
+  res.status(200).json(library)
 }
 
 const updateLibrary = async (req: Request, res: Response) => {
