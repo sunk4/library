@@ -6,6 +6,7 @@ dotenv.config()
 
 import 'express-async-errors'
 import morgan from 'morgan'
+import cors from "cors"
 
 import connectDB from './db/connectDB'
 
@@ -18,6 +19,7 @@ import errorHandlerMiddleware from './middleware/errorHandlerMiddleware'
 
 app.use(morgan('tiny'))
 app.use(express.json())
+app.use(cors())
 
 app.use('/api/v1/library', libraryRouter)
 app.use('/api/v1/user', userRouter)
