@@ -15,7 +15,7 @@ router.route('/return/:bookId/user/:userId').patch(returnTheBookByUser)
 
 router
   .route('/:id')
-  .get(getSingleBook)
+  .get( )
   .patch(updateAmountsOfBooks)
   .delete(deleteBookFromLibrary)
 

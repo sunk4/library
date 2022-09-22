@@ -1,14 +1,30 @@
-import * as React from 'react'
+import React from 'react'
 import Wrapper from './Wrapper'
-import { selectAllLibraries } from '../../../../features/libraries/librarySlice'
-import { useAppSelector } from '../../../../features/store.hooks'
+import {
+  selectAllLibraries,
+  deleteLibraryAsync,
+  getSingleLibraryAsync,
+} from '../../../../features/libraries/librarySlice'
+import {
+  useAppSelector,
+  useAppDispatch,
+} from '../../../../features/store.hooks'
+import { Link } from 'react-router-dom'
 
 interface IAppProps {}
 
 const Libraries: React.FunctionComponent<IAppProps> = (props) => {
   const libraries = useAppSelector(selectAllLibraries)
+  const dispatch = useAppDispatch()
 
-
+  const handleDeleteLibrary = (id: string) => {
+    let text = 'Are you u sure u want delete library?'
+    if (window.confirm(text)) {
+      dispatch(deleteLibraryAsync(id))
+    } else {
+      return
+    }
+  }
 
   let renderLibrary = libraries.map((library) => {
     const { libraryName, address, phoneNumber, _id, books } = library
@@ -21,7 +37,13 @@ const Libraries: React.FunctionComponent<IAppProps> = (props) => {
           <p>{phoneNumber}</p>
         </div>
         <p>Number of books: {books?.length}</p>
-        <button>Edit Library</button>
+        <Link
+          to={`/${_id}`}
+          onClick={() => dispatch(getSingleLibraryAsync(_id))}
+        >
+          Go to library - {libraryName}
+        </Link>
+        <button onClick={() => handleDeleteLibrary(_id)}>Delete Library</button>
       </div>
     )
   })

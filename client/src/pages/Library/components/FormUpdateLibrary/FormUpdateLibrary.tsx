@@ -1,27 +1,28 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import React from 'react'
+import {
+  selectLibrary,
+  updateLibraryAsync,
+} from '../../../../features/libraries/librarySlice'
+import {
+  useAppSelector,
+  useAppDispatch,
+} from '../../../../features/store.hooks'
 import Wrapper from './Wrapper'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { useAppDispatch } from '../../../../../features/store.hooks'
-import { createLibraryAsync } from '../../../../../features/libraries/librarySlice'
 
-
-type IProps = {
-  setShowCreateForm: Dispatch<SetStateAction<boolean>>  
-}
-
-const FormCreateLibrary: React.FunctionComponent<IProps> = ({
-  setShowCreateForm,
-}) => {
+const FormUpdateLibrary: React.FunctionComponent = () => {
+  const library: any = useAppSelector(selectLibrary)
   const dispatch = useAppDispatch()
+  const { _id } = library
 
   const phoneRegExp = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/g
 
   const formik = useFormik({
     initialValues: {
-      libraryName: '',
-      address: '',
-      phoneNumber: '',
+      libraryName: library?.libraryName,
+      address: library?.address,
+      phoneNumber: library?.phoneNumber,
     },
     validationSchema: Yup.object({
       libraryName: Yup.string()
@@ -36,16 +37,15 @@ const FormCreateLibrary: React.FunctionComponent<IProps> = ({
     }),
     onSubmit: (values) => {
       const { libraryName, address, phoneNumber } = values
-      dispatch(createLibraryAsync({ libraryName, address, phoneNumber }))
+      dispatch(updateLibraryAsync({ libraryName, address, phoneNumber, _id }))
       formik.values.libraryName = ''
       formik.values.address = ''
       formik.values.phoneNumber = ''
-      setShowCreateForm((prev:boolean) => !prev)
     },
   })
   return (
-    <Wrapper>
-      <form onSubmit={formik.handleSubmit}>
+  
+      <Wrapper onSubmit={formik.handleSubmit}>
         <input
           name="libraryName"
           type="text"
@@ -54,9 +54,7 @@ const FormCreateLibrary: React.FunctionComponent<IProps> = ({
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
         />
-        {formik.touched.libraryName && formik.errors.libraryName ? (
-          <p>{formik.errors.libraryName}</p>
-        ) : null}
+
         <input
           name="address"
           type="text"
@@ -65,9 +63,7 @@ const FormCreateLibrary: React.FunctionComponent<IProps> = ({
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
         />
-        {formik.touched.address && formik.errors.address ? (
-          <p>{formik.errors.address}</p>
-        ) : null}
+
         <input
           name="phoneNumber"
           type="text"
@@ -76,13 +72,11 @@ const FormCreateLibrary: React.FunctionComponent<IProps> = ({
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
         />
-        {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
-          <p>{formik.errors.phoneNumber}</p>
-        ) : null}
+
         <button type="submit">Submit</button>
-      </form>
-    </Wrapper>
+      </Wrapper>
+   
   )
 }
 
-export default FormCreateLibrary
+export default FormUpdateLibrary
