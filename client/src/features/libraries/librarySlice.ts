@@ -11,15 +11,23 @@ interface Libraries {
 }
 
 type Library = {
+  _id?: string
+  libraryName?: string
+  address?: string
+  phoneNumber?: string
+  books?: Book[]
+}
+
+interface Book {
   _id: string
-  libraryName: string
-  address: string
-  phoneNumber: string
+  bookName: string
+  description: string
+  amount:number
 }
 
 interface LibrariesSliceState {
   libraries: Libraries[]
-  library?: Library
+  library: Library
 }
 
 interface InputLibraryCreate {  
@@ -92,8 +100,9 @@ export const getSingleLibraryAsync = createAsyncThunk(
 
 const initialState: LibrariesSliceState = {
   libraries: [],
-  library: { _id: '', libraryName: '', address: '', phoneNumber: '' },
+  library: {},
 }
+
 
 const librarySlice = createSlice({
   name: 'libraries',
@@ -114,10 +123,12 @@ const librarySlice = createSlice({
       state.libraries = newLibraries
     })
     builder.addCase(updateLibraryAsync.fulfilled, (state, action) => {
+          
      state.library = action.payload
     })
     builder.addCase(getSingleLibraryAsync.fulfilled, (state, action) => {
       state.library = action.payload
+           
     })
   },
 })

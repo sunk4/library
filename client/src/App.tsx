@@ -1,6 +1,6 @@
 import Home from './pages/Home/Home'
 import Library from './pages/Library/Library'
-import SharedLayout from './pages/Library/ShareLayout/SharedLayout'
+import SharedLayout from './pages/Library/SharedLayout/SharedLayout'
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
