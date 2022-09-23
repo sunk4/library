@@ -1,22 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Wrapper from './Wrapper'
 import { selectLibrary } from '../../features/libraries/librarySlice'
 import { useAppSelector } from '../../features/store.hooks'
-
+import FormCreateANewBook from './components/FormCreateANewBook/FormCreateANewBook'
 
 const Library: React.FunctionComponent = () => {
   const library = useAppSelector(selectLibrary)
-
- console.log(library.books);
- 
-  
+  const [openCreateNewBook, setOpenCreateNewBook] = useState<boolean>(false)
+  const { _id: libraryId } = library
 
   let renderBooks = library.books?.map((book: any) => {
-    console.log(book);
-    
     const { _id, bookName, description, amount } = book
-    
-    
 
     return (
       <div key={_id}>
@@ -27,7 +21,22 @@ const Library: React.FunctionComponent = () => {
     )
   })
 
-  return <Wrapper>{renderBooks}</Wrapper>
+  return (
+    <Wrapper>
+      <div>
+        <button onClick={() => setOpenCreateNewBook((prev) => !prev)}>
+          Create a new book
+        </button>
+        {openCreateNewBook && (
+          <FormCreateANewBook
+            setOpenCreateNewBook={setOpenCreateNewBook}
+            libraryId={libraryId}
+          />
+        )}
+      </div>
+      {renderBooks}
+    </Wrapper>
+  )
 }
 
 export default Library

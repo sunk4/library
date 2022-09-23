@@ -35,7 +35,7 @@ const createBookAndItToLibrary = async (req: Request, res: Response) => {
     }
   )
 
-  res.status(200).json({ newBookInLibrary })
+  res.status(200).json(book)
 }
 
 const deleteBookFromLibrary = async (req: Request, res: Response) => {

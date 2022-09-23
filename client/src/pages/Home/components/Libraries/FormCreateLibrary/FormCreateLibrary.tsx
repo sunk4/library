@@ -5,9 +5,8 @@ import * as Yup from 'yup'
 import { useAppDispatch } from '../../../../../features/store.hooks'
 import { createLibraryAsync } from '../../../../../features/libraries/librarySlice'
 
-
-type IProps = {
-  setShowCreateForm: Dispatch<SetStateAction<boolean>>  
+interface IProps {
+  setShowCreateForm: Dispatch<SetStateAction<boolean>>
 }
 
 const FormCreateLibrary: React.FunctionComponent<IProps> = ({
@@ -16,7 +15,7 @@ const FormCreateLibrary: React.FunctionComponent<IProps> = ({
   const dispatch = useAppDispatch()
 
   const phoneRegExp = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/g
-
+  
   const formik = useFormik({
     initialValues: {
       libraryName: '',
@@ -35,52 +34,50 @@ const FormCreateLibrary: React.FunctionComponent<IProps> = ({
         .required('Required'),
     }),
     onSubmit: (values) => {
-      const { libraryName, address, phoneNumber } = values
-      dispatch(createLibraryAsync({ libraryName, address, phoneNumber }))
-      formik.values.libraryName = ''
-      formik.values.address = ''
-      formik.values.phoneNumber = ''
-      setShowCreateForm((prev:boolean) => !prev)
+       const { libraryName, address, phoneNumber } = values
+       dispatch(createLibraryAsync({ libraryName, address, phoneNumber }))
+       formik.values.libraryName = ''
+       formik.values.address = ''
+       formik.values.phoneNumber = ''
+      setShowCreateForm(false)
     },
   })
   return (
-    <Wrapper>
-      <form onSubmit={formik.handleSubmit}>
-        <input
-          name="libraryName"
-          type="text"
-          placeholder="Library name"
-          value={formik.values.libraryName || ''}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-        />
-        {formik.touched.libraryName && formik.errors.libraryName ? (
-          <p>{formik.errors.libraryName}</p>
-        ) : null}
-        <input
-          name="address"
-          type="text"
-          placeholder="Address"
-          value={formik.values.address || ''}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-        />
-        {formik.touched.address && formik.errors.address ? (
-          <p>{formik.errors.address}</p>
-        ) : null}
-        <input
-          name="phoneNumber"
-          type="text"
-          placeholder="Phone Number"
-          value={formik.values.phoneNumber || ''}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-        />
-        {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
-          <p>{formik.errors.phoneNumber}</p>
-        ) : null}
-        <button type="submit">Submit</button>
-      </form>
+    <Wrapper onSubmit={formik.handleSubmit}>
+      <input
+        name="libraryName"
+        type="text"
+        placeholder="Library name"
+        value={formik.values.libraryName || ''}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+      />
+      {formik.touched.libraryName && formik.errors.libraryName ? (
+        <p>{formik.errors.libraryName}</p>
+      ) : null}
+      <input
+        name="address"
+        type="text"
+        placeholder="Address"
+        value={formik.values.address || ''}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+      />
+      {formik.touched.address && formik.errors.address ? (
+        <p>{formik.errors.address}</p>
+      ) : null}
+      <input
+        name="phoneNumber"
+        type="text"
+        placeholder="Phone Number"
+        value={formik.values.phoneNumber || ''}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+      />
+      {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
+        <p>{formik.errors.phoneNumber}</p>
+      ) : null}
+      <button type="submit">Submit</button>
     </Wrapper>
   )
 }

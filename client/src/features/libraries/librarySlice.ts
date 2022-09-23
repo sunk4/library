@@ -22,7 +22,6 @@ interface Book {
   _id: string
   bookName: string
   description: string
-  amount:number
 }
 
 interface LibrariesSliceState {
@@ -30,21 +29,18 @@ interface LibrariesSliceState {
   library: Library
 }
 
-interface InputLibraryCreate {  
+interface InputLibraryCreate {
   libraryName: string
   address: string
   phoneNumber: string
 }
 
 interface InputLibraryUpdate {
-  _id:string
+  _id: string
   libraryName: string
   address: string
   phoneNumber: string
 }
-
-
-
 
 export const getAllLibrariesAsync = createAsyncThunk(
   'libraries/getAllLibrariesAsync',
@@ -98,11 +94,29 @@ export const getSingleLibraryAsync = createAsyncThunk(
   }
 )
 
+type InputBookCreate = {
+  bookName: string
+  description: string
+  libraryId?: string
+}
+
+export const createBookAndItToLibrary = createAsyncThunk(
+  'books/createBookAndItToLibrary',
+  async (data: InputBookCreate) => {  
+    const { bookName, description, libraryId } = data
+
+    const response = await libraryApi.post(`/book/book/${libraryId}`, {
+      bookName,
+      description,
+    })
+    return response.data
+  }
+)
+
 const initialState: LibrariesSliceState = {
   libraries: [],
   library: {},
 }
-
 
 const librarySlice = createSlice({
   name: 'libraries',
@@ -123,12 +137,15 @@ const librarySlice = createSlice({
       state.libraries = newLibraries
     })
     builder.addCase(updateLibraryAsync.fulfilled, (state, action) => {
-          
-     state.library = action.payload
+      state.library = action.payload
     })
     builder.addCase(getSingleLibraryAsync.fulfilled, (state, action) => {
       state.library = action.payload
-           
+    })
+    builder.addCase(createBookAndItToLibrary.fulfilled, (state, action) => {
+      console.log(action.payload);
+      
+      state.library.books = [...(state.library.books ?? []), action.payload]
     })
   },
 })
