@@ -3,7 +3,7 @@ import Wrapper from './Wrapper'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useAppDispatch } from '../../../../features/store.hooks'
-import { createBookAndItToLibrary } from '../../../../features/libraries/librarySlice'
+import { createBookAndItToLibraryAsync } from '../../../../features/libraries/librarySlice'
 
 interface IProps {
   setOpenCreateNewBook: Dispatch<SetStateAction<boolean>>
@@ -20,6 +20,7 @@ const FormCreateLibrary: React.FunctionComponent<IProps> = ({
     initialValues: {
       bookName: '',
       description: '',
+      amount: 0,
     },
     validationSchema: Yup.object({
       bookName: Yup.string()
@@ -28,12 +29,23 @@ const FormCreateLibrary: React.FunctionComponent<IProps> = ({
       description: Yup.string()
         .max(400, 'Must be 400 characters or less')
         .required('Required'),
+      amount: Yup.number()
+        .min(1, "Please add least a one book")
+        .required('Required'),
     }),
     onSubmit: (values) => {
-      const { bookName, description } = values
-      dispatch(createBookAndItToLibrary({ bookName, description, libraryId }))
+      const { bookName, description, amount } = values
+      dispatch(
+        createBookAndItToLibraryAsync({
+          bookName,
+          description,
+          libraryId,
+          amount,
+        })
+      )
       formik.values.bookName = ''
       formik.values.description = ''
+      formik.values.amount = 1
       setOpenCreateNewBook(false)
     },
   })
@@ -60,6 +72,17 @@ const FormCreateLibrary: React.FunctionComponent<IProps> = ({
       />
       {formik.touched.description && formik.errors.description ? (
         <p>{formik.errors.description}</p>
+      ) : null}
+      <input
+        name="amount"
+        type="number"
+        placeholder="Number of books"
+        value={formik.values.amount || ""}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+      />
+      {formik.touched.amount && formik.errors.amount ? (
+        <p>{formik.errors.amount}</p>
       ) : null}
 
       <button type="submit">Submit</button>

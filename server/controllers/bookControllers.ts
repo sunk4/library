@@ -64,7 +64,7 @@ const updateAmountsOfBooks = async (req: Request, res: Response) => {
     book.save()
   }
 
-  res.status(200).json({ book })
+  res.status(200).json(book)
 }
 
 const borrowBookByUser = async (req: Request, res: Response) => {
@@ -87,8 +87,7 @@ const borrowBookByUser = async (req: Request, res: Response) => {
     throw new CustomError(`User with id: ${userId} does not exist`, 404)
   }
 
-  const bookCount:any = await Book.findOne({ _id: bookId })
- 
+  const bookCount: any = await Book.findOne({ _id: bookId })
 
   if (bookCount?.amount < 0) {
     throw new CustomError(`No stock of this book in warehouse`, 404)

@@ -4,6 +4,7 @@ import {
   createAsyncThunk,
   current,
 } from '@reduxjs/toolkit'
+import { act } from '@testing-library/react'
 import libraryApi from '../../common/libraryApi'
 import type { RootState } from '../store'
 
@@ -27,6 +28,7 @@ interface Book {
   _id: string
   bookName: string
   description: string
+  amount: number
 }
 
 interface LibrariesSliceState {
@@ -103,25 +105,43 @@ type InputBookCreate = {
   bookName: string
   description: string
   libraryId?: string
+  amount: number
 }
 
-export const createBookAndItToLibrary = createAsyncThunk(
-  'books/createBookAndItToLibrary',
+export const createBookAndItToLibraryAsync = createAsyncThunk(
+  'libraries/createBookAndItToLibraryAsync',
   async (data: InputBookCreate) => {
-    const { bookName, description, libraryId } = data
+    const { bookName, description, libraryId, amount } = data
 
     const response = await libraryApi.post(`/book/book/${libraryId}`, {
       bookName,
       description,
+      amount,
     })
     return response.data
   }
 )
 
 export const deleteBookFromLibrary = createAsyncThunk(
-  'books/deleteBookFromLibrary',
+  'libraries/deleteBookFromLibrary',
   async (_id: string) => {
     const response = await libraryApi.delete(`/book/${_id}`)
+    return response.data
+  }
+)
+
+type InputBookUpdate = {
+  _id?: string
+  amount: number
+}
+
+export const updateAmountsOfBooksAsync = createAsyncThunk(
+  'libraries/updateAmountsOfBooks',
+  async (data: InputBookUpdate) => {
+    const { amount, _id: libraryId } = data
+    const response = await libraryApi.patch(`/book/${libraryId}`, {
+      amount,
+    })
     return response.data
   }
 )
@@ -155,14 +175,24 @@ const librarySlice = createSlice({
     builder.addCase(getSingleLibraryAsync.fulfilled, (state, action) => {
       state.library = action.payload
     })
-    builder.addCase(createBookAndItToLibrary.fulfilled, (state, action) => {
-      state.library.books = [...(state.library.books ?? []), action.payload]
-    })
+    builder.addCase(
+      createBookAndItToLibraryAsync.fulfilled,
+      (state, action) => {
+        state.library.books = [...(state.library.books ?? []), action.payload]
+      }
+    )
     builder.addCase(deleteBookFromLibrary.fulfilled, (state, action) => {
       const newBooksInLibrary = state.library.books?.filter(
         (book) => book._id !== action.payload
-      )        
+      )
       state.library.books = newBooksInLibrary
+    })
+    builder.addCase(updateAmountsOfBooksAsync.fulfilled, (state, action) => {      
+
+      const updatedBookInLibrary = state.library.books?.map((book) =>
+        book._id === action.payload._id ? action.payload : book
+      )
+      state.library.books = updatedBookInLibrary
     })
   },
 })
