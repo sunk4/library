@@ -1,14 +1,18 @@
 import React from 'react'
 import Wrapper from './Wrapper'
-import {Link} from "react-router-dom"
+import { NavLink } from 'react-router-dom'
+import { useAppSelector } from '../../../../features/store.hooks'
+import { selectLibrary } from '../../../../features/libraries/librarySlice'
 
 interface IAppProps {}
 
 const Navbar: React.FunctionComponent<IAppProps> = (props) => {
+  const library = useAppSelector(selectLibrary)
+    const { _id: libraryId } = library
   return (
     <Wrapper>
-      <h2>Books</h2>
-      <h2>Students</h2>
+      <NavLink to={`/${libraryId}`}>Books</NavLink>
+      <NavLink to={`/${libraryId}/student`}>Students</NavLink>
     </Wrapper>
   )
 }
