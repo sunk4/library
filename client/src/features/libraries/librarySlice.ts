@@ -1,4 +1,9 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
+import {
+  createSlice,
+  PayloadAction,
+  createAsyncThunk,
+  current,
+} from '@reduxjs/toolkit'
 import libraryApi from '../../common/libraryApi'
 import type { RootState } from '../store'
 
@@ -102,13 +107,21 @@ type InputBookCreate = {
 
 export const createBookAndItToLibrary = createAsyncThunk(
   'books/createBookAndItToLibrary',
-  async (data: InputBookCreate) => {  
+  async (data: InputBookCreate) => {
     const { bookName, description, libraryId } = data
 
     const response = await libraryApi.post(`/book/book/${libraryId}`, {
       bookName,
       description,
     })
+    return response.data
+  }
+)
+
+export const deleteBookFromLibrary = createAsyncThunk(
+  'books/deleteBookFromLibrary',
+  async (_id: string) => {
+    const response = await libraryApi.delete(`/book/${_id}`)
     return response.data
   }
 )
@@ -143,9 +156,13 @@ const librarySlice = createSlice({
       state.library = action.payload
     })
     builder.addCase(createBookAndItToLibrary.fulfilled, (state, action) => {
-      console.log(action.payload);
-      
       state.library.books = [...(state.library.books ?? []), action.payload]
+    })
+    builder.addCase(deleteBookFromLibrary.fulfilled, (state, action) => {
+      const newBooksInLibrary = state.library.books?.filter(
+        (book) => book._id !== action.payload
+      )        
+      state.library.books = newBooksInLibrary
     })
   },
 })

@@ -46,7 +46,7 @@ const deleteBookFromLibrary = async (req: Request, res: Response) => {
     throw new CustomError(`Book with id: ${id} does not exist`, 404)
   }
 
-  res.status(200).json({ msg: `Book with ${id} was removed` })
+  res.status(200).json(id)
 }
 
 const updateAmountsOfBooks = async (req: Request, res: Response) => {

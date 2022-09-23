@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
 import Wrapper from './Wrapper'
-import { selectLibrary } from '../../features/libraries/librarySlice'
-import { useAppSelector } from '../../features/store.hooks'
+import {
+  selectLibrary,
+  deleteBookFromLibrary,
+} from '../../features/libraries/librarySlice'
+import { useAppDispatch, useAppSelector } from '../../features/store.hooks'
 import FormCreateANewBook from './components/FormCreateANewBook/FormCreateANewBook'
 
 const Library: React.FunctionComponent = () => {
   const library = useAppSelector(selectLibrary)
+  const dispatch = useAppDispatch()
   const [openCreateNewBook, setOpenCreateNewBook] = useState<boolean>(false)
   const { _id: libraryId } = library
 
@@ -17,6 +21,9 @@ const Library: React.FunctionComponent = () => {
         <h4>{bookName}</h4>
         <h4>{description}</h4>
         <h4>{amount}</h4>
+        <button onClick={() => dispatch(deleteBookFromLibrary(_id))}>
+          Delete book
+        </button>
       </div>
     )
   })
