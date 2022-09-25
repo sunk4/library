@@ -7,6 +7,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../../features/store.hooks'
 import FormCreateANewBook from '../components/FormCreateANewBook/FormCreateANewBook'
 import FormUpdateAmountOfBooks from '../components/FormUpdateAmountOfBooks/FormUpdateAmountOfBooks'
+import {Link} from "react-router-dom"
 
 const Library: React.FunctionComponent = () => {
   const library = useAppSelector(selectLibrary)
@@ -21,9 +22,11 @@ const Library: React.FunctionComponent = () => {
 
     return (
       <div key={_id}>
-        <h4>{bookName}</h4>
-        <h4>{description}</h4>
-        <h4>{amount}</h4>
+        <Link to={`/${libraryId}/book/${_id}`}>
+          <h4>{bookName}</h4>
+          <h4>{description}</h4>
+          <h4>{amount}</h4>
+        </Link>
         <button onClick={() => dispatch(deleteBookFromLibrary(_id))}>
           Delete book
         </button>
@@ -31,7 +34,7 @@ const Library: React.FunctionComponent = () => {
           Update amount of books
         </button>
         {openUpdateAmountBook && (
-          <FormUpdateAmountOfBooks 
+          <FormUpdateAmountOfBooks
             _id={_id}
             setOpenUpdateAmountBook={setOpenUpdateAmountBook}
           />

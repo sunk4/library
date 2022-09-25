@@ -5,18 +5,21 @@ import * as Yup from 'yup'
 import { useAppDispatch } from '../../../../features/store.hooks'
 import { editSingleUserAsync } from '../../../../features/libraries/userSlice'
 import { getSingleLibraryAsync } from '../../../../features/libraries/librarySlice'
-import {useParams} from "react-router-dom"
-
-
+import { useParams } from 'react-router-dom'
 
 interface IProps {
   setOpenEditUser: Dispatch<SetStateAction<boolean>>
-  firstName: string,
+  firstName: string
   lastName: string
-  _id:string
+  _id: string
 }
 
-const FormEditUser: React.FunctionComponent<IProps> = ({ setOpenEditUser,firstName,lastName,_id }) => {
+const FormEditUser: React.FunctionComponent<IProps> = ({
+  setOpenEditUser,
+  firstName,
+  lastName,
+  _id,
+}) => {
   const dispatch = useAppDispatch()
   const { libraryId } = useParams()
 
@@ -39,7 +42,7 @@ const FormEditUser: React.FunctionComponent<IProps> = ({ setOpenEditUser,firstNa
         editSingleUserAsync({
           firstName,
           lastName,
-          _id
+          _id,
         })
       )
       formik.values.firstName = ''
