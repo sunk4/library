@@ -160,6 +160,26 @@ export const deleteStudentFromLibraryAsync = createAsyncThunk(
   }
 )
 
+type InputUserCreate = {
+  firstName: string
+  lastName: string
+  libraryId?: string
+}
+
+export const createStudentAndAddHimToLibraryAsync = createAsyncThunk(
+  'libraries/createStudentAndAddHimToLibraryAsync',
+  async (data: InputUserCreate) => {
+    const { firstName, lastName, libraryId } = data
+
+    const response = await libraryApi.post(`/user/user/${libraryId}`, {
+      firstName,
+      lastName,
+         
+    })
+    return response.data
+  }
+)
+
 const initialState: LibrariesSliceState = {
   libraries: [],
   library: {},
@@ -218,6 +238,12 @@ const librarySlice = createSlice({
         state.library.users = newStudentsInLibrary
       }
     )
+     builder.addCase(
+       createStudentAndAddHimToLibraryAsync.fulfilled,
+       (state, action) => {
+         state.library.users = [...(state.library.users ?? []), action.payload]
+       }
+     )
   },
 })
 

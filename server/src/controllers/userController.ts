@@ -34,7 +34,7 @@ const createStudentAndAddHimToLibrary = async (req: Request, res: Response) => {
     }
   )
 
-  res.status(202).json({ newUserInLibrary })
+  res.status(202).json(user)
 }
 
 const removeUserFromLibrary = async (req: Request, res: Response) => {
