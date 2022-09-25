@@ -6,6 +6,7 @@ import {
 } from '../../../features/libraries/librarySlice'
 import { useAppDispatch, useAppSelector } from '../../../features/store.hooks'
 import FormAddNewStudent from '../components/FormAddNewStudent/FormAddNewStudent'
+import {Link} from "react-router-dom"
 
 interface IAppProps {}
 
@@ -25,11 +26,11 @@ const Students: React.FunctionComponent<IAppProps> = (props) => {
     const { _id, firstName, lastName } = student
 
     return (
-      <div key={_id}>
+      <Link to={`/${libraryId}/student/${_id}`} key={_id}>
         <h4>{firstName}</h4>
         <h4>{lastName}</h4>
         <button onClick={() => handleDeleteStudent(_id)}>Delete student</button>
-      </div>
+      </Link>
     )
   })
 

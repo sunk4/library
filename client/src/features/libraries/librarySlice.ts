@@ -4,7 +4,7 @@ import {
   createAsyncThunk,
   current,
 } from '@reduxjs/toolkit'
-import { act } from '@testing-library/react'
+
 import libraryApi from '../../common/libraryApi'
 import type { RootState } from '../store'
 
