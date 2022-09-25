@@ -22,7 +22,7 @@ type Library = {
   address?: string
   phoneNumber?: string
   books?: Book[]
-  users?:User[]
+  users?: User[]
 }
 
 interface Book {
@@ -32,9 +32,9 @@ interface Book {
   amount: number
 }
 interface User {
-  _id: string,
-  firstName: string,
-  lastName:string
+  _id: string
+  firstName: string
+  lastName: string
 }
 
 interface LibrariesSliceState {
@@ -152,6 +152,14 @@ export const updateAmountsOfBooksAsync = createAsyncThunk(
   }
 )
 
+export const deleteStudentFromLibraryAsync = createAsyncThunk(
+  'libraries/deleteStudentFromLibraryAsync',
+  async (_id: string) => {
+    const response = await libraryApi.delete(`/user/${_id}`)
+    return response.data
+  }
+)
+
 const initialState: LibrariesSliceState = {
   libraries: [],
   library: {},
@@ -193,13 +201,23 @@ const librarySlice = createSlice({
       )
       state.library.books = newBooksInLibrary
     })
-    builder.addCase(updateAmountsOfBooksAsync.fulfilled, (state, action) => {      
-
+    builder.addCase(updateAmountsOfBooksAsync.fulfilled, (state, action) => {
       const updatedBookInLibrary = state.library.books?.map((book) =>
         book._id === action.payload._id ? action.payload : book
       )
       state.library.books = updatedBookInLibrary
     })
+    builder.addCase(
+      deleteStudentFromLibraryAsync.fulfilled,
+      (state, action) => {
+        const { id } = action.payload
+
+        const newStudentsInLibrary = state.library.users?.filter(
+          (user) => user._id !== id
+        )
+        state.library.users = newStudentsInLibrary
+      }
+    )
   },
 })
 

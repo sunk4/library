@@ -45,7 +45,7 @@ const removeUserFromLibrary = async (req: Request, res: Response) => {
     throw new CustomError(`User with id: ${id} does not exist`, 404)
   }
 
-  res.status(200).json({ msg: `User with ${id} was removed` })
+  res.status(200).json({id})
 }
 
 const editUserInLibrary = async (req: Request, res: Response) => {
