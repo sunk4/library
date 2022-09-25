@@ -3,10 +3,10 @@ import Wrapper from './Wrapper'
 import {
   selectLibrary,
   deleteBookFromLibrary,
-} from '../../features/libraries/librarySlice'
-import { useAppDispatch, useAppSelector } from '../../features/store.hooks'
-import FormCreateANewBook from './components/FormCreateANewBook/FormCreateANewBook'
-import FormUpdateAmountOfBooks from './components/FormUpdateAmountOfBooks/FormUpdateAmountOfBooks'
+} from '../../../features/libraries/librarySlice'
+import { useAppDispatch, useAppSelector } from '../../../features/store.hooks'
+import FormCreateANewBook from '../components/FormCreateANewBook/FormCreateANewBook'
+import FormUpdateAmountOfBooks from '../components/FormUpdateAmountOfBooks/FormUpdateAmountOfBooks'
 
 const Library: React.FunctionComponent = () => {
   const library = useAppSelector(selectLibrary)

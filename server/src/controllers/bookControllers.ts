@@ -1,8 +1,8 @@
-import Book from '../src/models/Book'
-import Library from '../src/models/Library'
+import Book from '../models/Book'
+import Library from '../models/Library'
 import e, { Request, Response } from 'express'
-import CustomError from '../src/errors/Custom-error'
-import User from '../src/models/User'
+import CustomError from '../errors/Custom-error'
+import User from '../models/User'
 
 const createBookAndItToLibrary = async (req: Request, res: Response) => {
   const { bookName, description } = req.body

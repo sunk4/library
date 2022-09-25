@@ -7,7 +7,7 @@ import {
   borrowBookByUser,
   returnTheBookByUser,
   getSingleBook,
-} from '../../controllers/bookControllers'
+} from '../controllers/bookControllers'
 
 router.route('/book/:id').post(createBookAndItToLibrary)
 router.route('/borrow/:bookId/user/:userId').patch(borrowBookByUser)

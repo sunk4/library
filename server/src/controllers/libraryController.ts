@@ -1,6 +1,6 @@
-import Library from '../src/models/Library'
+import Library from '../models/Library'
 import { Request, Response } from 'express'
-import CustomError from '../src/errors/Custom-error'
+import CustomError from '../errors/Custom-error'
 
 const createLibrary = async (req: Request, res: Response) => {
   const { libraryName, address, phoneNumber } = req.body

@@ -5,7 +5,7 @@ import {
   removeUserFromLibrary,
   editUserInLibrary,
   getSingleUser,
-} from '../../controllers/userController'
+} from '../controllers/userController'
 
 
 router.route('/user/:id').get().post(createStudentAndAddHimToLibrary)

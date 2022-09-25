@@ -6,7 +6,7 @@ import {
   getSingleLibrary,
   deleteLibrary,
   getAllLibraries,
-} from '../../controllers/libraryController'
+} from '../controllers/libraryController'
 
 router.route('/').get(getAllLibraries).post(createLibrary)
 router

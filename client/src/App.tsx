@@ -1,5 +1,5 @@
 import Home from './pages/Home/Home'
-import Library from './pages/Library/Library'
+import Library from './pages/Library/Library/Library'
 import SharedLayout from './pages/Library/SharedLayout/SharedLayout'
 import Students from './pages/Library/Students/Students'
 

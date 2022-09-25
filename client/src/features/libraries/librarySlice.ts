@@ -22,6 +22,7 @@ type Library = {
   address?: string
   phoneNumber?: string
   books?: Book[]
+  users?:User[]
 }
 
 interface Book {
@@ -29,6 +30,11 @@ interface Book {
   bookName: string
   description: string
   amount: number
+}
+interface User {
+  _id: string,
+  firstName: string,
+  lastName:string
 }
 
 interface LibrariesSliceState {

@@ -1,7 +1,7 @@
-import User from '../src/models/User'
-import Library from '../src/models/Library'
+import User from '../models/User'
+import Library from '../models/Library'
 import { Request, Response } from 'express'
-import CustomError from '../src/errors/Custom-error'
+import CustomError from '../errors/Custom-error'
 
 const createStudentAndAddHimToLibrary = async (req: Request, res: Response) => {
   const { firstName, lastName } = req.body
