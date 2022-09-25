@@ -3,45 +3,49 @@ import Wrapper from './Wrapper'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useAppDispatch } from '../../../../features/store.hooks'
-import { createStudentAndAddHimToLibraryAsync } from '../../../../features/libraries/librarySlice'
+import { editSingleUserAsync } from '../../../../features/libraries/userSlice'
+import { getSingleLibraryAsync } from '../../../../features/libraries/librarySlice'
+import {useParams} from "react-router-dom"
+
+
 
 interface IProps {
-  setOpenAddNewStudent: Dispatch<SetStateAction<boolean>>
-  libraryId?: string
+  setOpenEditUser: Dispatch<SetStateAction<boolean>>
+  firstName: string,
+  lastName: string
+  _id:string
 }
 
-const FormCreateLibrary: React.FunctionComponent<IProps> = ({
-  setOpenAddNewStudent,
-  libraryId,
-}) => {
+const FormEditUser: React.FunctionComponent<IProps> = ({ setOpenEditUser,firstName,lastName,_id }) => {
   const dispatch = useAppDispatch()
+  const { libraryId } = useParams()
 
   const formik = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
+      firstName: firstName,
+      lastName: lastName,
     },
     validationSchema: Yup.object({
       firstName: Yup.string()
-        .max(30, 'Must be 30 characters or less')
+        .max(30, 'Must be 50 characters or less')
         .required('Required'),
       lastName: Yup.string()
-        .max(30, 'Must be 30 characters or less')
+        .max(30, 'Must be 40 characters or less')
         .required('Required'),
     }),
     onSubmit: (values) => {
       const { firstName, lastName } = values
       dispatch(
-        createStudentAndAddHimToLibraryAsync({
+        editSingleUserAsync({
           firstName,
           lastName,
-          libraryId,
+          _id
         })
       )
       formik.values.firstName = ''
       formik.values.lastName = ''
-
-      setOpenAddNewStudent(false)
+      dispatch(getSingleLibraryAsync(libraryId))
+      setOpenEditUser(false)
     },
   })
   return (
@@ -74,4 +78,4 @@ const FormCreateLibrary: React.FunctionComponent<IProps> = ({
   )
 }
 
-export default FormCreateLibrary
+export default FormEditUser

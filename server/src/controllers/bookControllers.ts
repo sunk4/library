@@ -89,7 +89,7 @@ const borrowBookByUser = async (req: Request, res: Response) => {
 
   const bookCount: any = await Book.findOne({ _id: bookId })
 
-  if (bookCount?.amount < 0) {
+  if (bookCount?.amount <= 0) {
     throw new CustomError(`No stock of this book in warehouse`, 404)
   } else {
     const book = await Book.findOneAndUpdate(
@@ -99,15 +99,13 @@ const borrowBookByUser = async (req: Request, res: Response) => {
       {
         $push: {
           users: userId,
-        },
-        $max: [
-          0,
-          {
+        },  
+          
             $inc: {
               amount: -1,
             },
-          },
-        ],
+        
+     
       },
       {
         new: true,
@@ -156,7 +154,7 @@ const getSingleBook = async (req: Request, res: Response) => {
   const { id } = req.params
   const book = await Book.findOne({ _id: id }).populate('users')
 
-  res.status(200).json({ book })
+  res.status(200).json( book )
 }
 
 export {

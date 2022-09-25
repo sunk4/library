@@ -10,10 +10,29 @@ export const getSingleUserAsync = createAsyncThunk(
   }
 )
 
+interface InputEditUser {
+  _id: string
+  firstName: string
+  lastName: string
+}
+
+export const editSingleUserAsync = createAsyncThunk(
+  'user/editSingleUserAsync',
+  async (data: InputEditUser) => {
+    const { _id, firstName, lastName } = data
+    const response = await libraryApi.patch(`/user/${_id}`, {
+      firstName,
+      lastName,
+    })
+    return response.data
+  }
+)
+
 interface User {
   _id: string
   firstName: string
   lastName: string
+  books:[]
 }
 
 interface UserSliceState {
@@ -21,19 +40,19 @@ interface UserSliceState {
 }
 
 const initialState: UserSliceState = {
-  user: { _id: '', firstName: '', lastName: '' },
+  user: { _id: '', firstName: '', lastName: '',books:[] },
 }
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {},
-  extraReducers: (builder) => {
- 
-    builder.addCase(getSingleUserAsync.fulfilled, (state, action) => {  
-    
-      
+  extraReducers: (builder) => { 
+    builder.addCase(getSingleUserAsync.fulfilled, (state, action) => {   
       state.user = action.payload[0]
+    })
+    builder.addCase(editSingleUserAsync.fulfilled, (state, action) => {
+      state.user = action.payload
     })
   },
 })

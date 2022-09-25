@@ -5,20 +5,18 @@ import {
   selectUser,
   getSingleUserAsync,
 } from '../../features/libraries/userSlice'
-import {useParams} from "react-router-dom"
+import { useParams } from "react-router-dom"
+import FormEditUser from "./components/FormEditUser/FormEditUser"
 
 interface IAppProps {}
 
 const User: React.FunctionComponent<IAppProps> = (props) => {
   const dispatch = useAppDispatch()
   const student = useAppSelector(selectUser)
-const {firstName,lastName} = student
-
+  const [openEditUser,setOpenEditUser] = useState<boolean>(false)
+const {firstName,lastName,books} = student
 
   const { studentId } = useParams()
-
-  
-
   
 
   useEffect(() => {
@@ -26,10 +24,23 @@ const {firstName,lastName} = student
   }, [dispatch, studentId])
 
   return (
-    <div>
+    <Wrapper>
+      <button onClick={() => setOpenEditUser((prev) => !prev)}>
+        Edit user
+      </button>
+      {openEditUser && (
+        <FormEditUser setOpenEditUser={setOpenEditUser} {...student} />
+      )}
       <h4>{firstName}</h4>
       <h4>{lastName}</h4>
-    </div>
+      <h2>List of books borrowed</h2>
+      {books.map((book,index) => {
+     
+        
+        const { bookName } = book
+        return <div key={index}>{bookName}</div>
+      })}
+    </Wrapper>
   )
 }
 

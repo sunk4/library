@@ -67,8 +67,7 @@ const editUserInLibrary = async (req: Request, res: Response) => {
   if (!user) {
     throw new CustomError(`User with id: ${id} does not exist`, 404)
   }
-
-  res.status(200).json({ msg: `User with ${id} was updated`, user })
+  res.status(200).json(user)
 }
 
 const getSingleUser = async (req: Request, res: Response) => {
@@ -79,7 +78,7 @@ const getSingleUser = async (req: Request, res: Response) => {
     throw new CustomError(`User with id: ${id} does not exist`, 404)
   }
 
-  res.status(200).json(user )
+  res.status(200).json(user)
 }
 
 export {

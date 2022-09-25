@@ -101,7 +101,7 @@ export const updateLibraryAsync = createAsyncThunk(
 
 export const getSingleLibraryAsync = createAsyncThunk(
   'libraries/getSingleLibraryAsync',
-  async (id: string) => {
+  async (id: string|undefined) => {
     const response = await libraryApi.get(`library/${id}`)
     return response.data
   }
