@@ -6,7 +6,7 @@ import {
 } from '../../../features/libraries/librarySlice'
 import { useAppDispatch, useAppSelector } from '../../../features/store.hooks'
 import FormAddNewStudent from '../components/FormAddNewStudent/FormAddNewStudent'
-import {Link} from "react-router-dom"
+import { Link } from 'react-router-dom'
 
 interface IAppProps {}
 
@@ -18,25 +18,40 @@ const Students: React.FunctionComponent<IAppProps> = (props) => {
   const { _id: libraryId } = library
 
   const handleDeleteStudent = (studentId: string) => {
-    window.confirm('Are you sure u wanna delete student?')
-    dispatch(deleteStudentFromLibraryAsync(studentId))
+    if (window.confirm('Are you sure u wanna delete student?')) {
+      dispatch(deleteStudentFromLibraryAsync(studentId))
+    }
   }
 
   let renderStudents = library.users?.map((student) => {
     const { _id, firstName, lastName } = student
 
     return (
-      <Link to={`/${libraryId}/student/${_id}`} key={_id}>
-        <h4>{firstName}</h4>
-        <h4>{lastName}</h4>
-        <button onClick={() => handleDeleteStudent(_id)}>Delete student</button>
-      </Link>
+      <section>
+        <div className="section-user">
+          <h4>
+            {firstName} {lastName}
+          </h4>
+          <button
+            className="btn-delete"
+            onClick={() => handleDeleteStudent(_id)}
+          >
+            Delete student
+          </button>
+        </div>
+        <Link to={`/${libraryId}/student/${_id}`} key={_id}>
+          <button className="btn-open-student">Open details</button>
+        </Link>
+      </section>
     )
   })
 
   return (
     <Wrapper>
-      <button onClick={() => setOpenAddNewStudent((prev) => !prev)}>
+      <button
+        className="btn-open-modal"
+        onClick={() => setOpenAddNewStudent((prev) => !prev)}
+      >
         Add Student to library
       </button>
       {openAddNewStudent && (
@@ -45,7 +60,7 @@ const Students: React.FunctionComponent<IAppProps> = (props) => {
           setOpenAddNewStudent={setOpenAddNewStudent}
         />
       )}
-      {renderStudents}
+      <div className="section-student">{renderStudents}</div>
     </Wrapper>
   )
 }

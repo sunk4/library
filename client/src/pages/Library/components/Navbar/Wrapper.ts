@@ -24,6 +24,12 @@ const Wrapper = styled.nav`
   .icon {
     margin-right: 0.4rem;
   }
+  .active-book {
+    color: var(--grey-900);
+  }
+  .active-student {
+    color: var(--grey-900);
+  }
 
   @media (max-width: 580px) {
     height: 100%;

@@ -6,7 +6,7 @@ import {
   getSingleBookAsync,
 } from '../../features/libraries/bookSlice'
 import { useParams } from 'react-router-dom'
-import FormEditBook from "../components/FormEditBook/FormEditBook"
+import FormEditBook from "./FormEditBook/FormEditBook"
 
 
 interface IAppProps {}

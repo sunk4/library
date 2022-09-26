@@ -1,23 +1,22 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Wrapper from './Wrapper'
-import { useAppDispatch, useAppSelector } from "../../features/store.hooks"
+import { useAppDispatch, useAppSelector } from '../../features/store.hooks'
 import {
   selectUser,
   getSingleUserAsync,
 } from '../../features/libraries/userSlice'
-import { useParams } from "react-router-dom"
-import FormEditUser from "./components/FormEditUser/FormEditUser"
+import { useParams } from 'react-router-dom'
+import FormEditUser from './components/FormEditUser/FormEditUser'
 
 interface IAppProps {}
 
 const User: React.FunctionComponent<IAppProps> = (props) => {
   const dispatch = useAppDispatch()
   const student = useAppSelector(selectUser)
-  const [openEditUser,setOpenEditUser] = useState<boolean>(false)
-const {firstName,lastName,books} = student
+  const [openEditUser, setOpenEditUser] = useState<boolean>(false)
+  const { firstName, lastName, books } = student
 
   const { studentId } = useParams()
-  
 
   useEffect(() => {
     dispatch(getSingleUserAsync(studentId))
@@ -34,9 +33,7 @@ const {firstName,lastName,books} = student
       <h4>{firstName}</h4>
       <h4>{lastName}</h4>
       <h2>List of books borrowed</h2>
-      {books.map((book,index) => {
-     
-        
+      {books.map((book, index) => {
         const { bookName } = book
         return <div key={index}>{bookName}</div>
       })}

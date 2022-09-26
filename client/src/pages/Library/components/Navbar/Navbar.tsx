@@ -5,17 +5,17 @@ import { useAppSelector } from '../../../../features/store.hooks'
 import { selectLibrary } from '../../../../features/libraries/librarySlice'
 import { IoIosBook, IoIosPerson } from 'react-icons/io'
 
-interface IAppProps {}
-
-const Navbar: React.FunctionComponent<IAppProps> = (props) => {
+const Navbar: React.FunctionComponent = () => {
   const library = useAppSelector(selectLibrary)
-    const { _id: libraryId } = library
+  const { _id: libraryId } = library
+
   return (
     <Wrapper>
       <NavLink to={`/${libraryId}`}>
         <IoIosBook className="icon" />
         Books
       </NavLink>
+
       <NavLink to={`/${libraryId}/student`}>
         <IoIosPerson className="icon" />
         Students
