@@ -3,6 +3,7 @@ import Wrapper from './Wrapper'
 import { useAppSelector } from '../../../../features/store.hooks'
 import { selectLibrary } from '../../../../features/libraries/librarySlice'
 import FormUpdateLibrary from '../FormUpdateLibrary/FormUpdateLibrary'
+import { Link } from 'react-router-dom'
 
 const Header: React.FunctionComponent = () => {
   const library = useAppSelector(selectLibrary)
@@ -11,15 +12,15 @@ const Header: React.FunctionComponent = () => {
 
   return (
     <Wrapper>
-      <div>
-        {library?.libraryName}
-        {library?.address}
-        {library?.phoneNumber}
-      </div>
+      <Link to="/">
+        <h1>{library?.libraryName}</h1>
+      </Link>
       <button onClick={() => setOpenModalEditLibrary((prev: boolean) => !prev)}>
         Edit library
       </button>
-      {openModalEditLibrary && <FormUpdateLibrary />}
+      {openModalEditLibrary && (
+        <FormUpdateLibrary setOpenModalEditLibrary={setOpenModalEditLibrary} />
+      )}
     </Wrapper>
   )
 }

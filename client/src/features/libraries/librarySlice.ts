@@ -111,18 +111,16 @@ type InputBookCreate = {
   bookName: string
   description: string
   libraryId?: string
-  amount: number
 }
 
 export const createBookAndItToLibraryAsync = createAsyncThunk(
   'libraries/createBookAndItToLibraryAsync',
   async (data: InputBookCreate) => {
-    const { bookName, description, libraryId, amount } = data
+    const { bookName, description, libraryId } = data
 
     const response = await libraryApi.post(`/book/book/${libraryId}`, {
       bookName,
       description,
-      amount,
     })
     return response.data
   }
@@ -204,7 +202,7 @@ const librarySlice = createSlice({
       )
       state.library.books = newBooksInLibrary
     })
-    
+
     builder.addCase(
       deleteStudentFromLibraryAsync.fulfilled,
       (state, action) => {

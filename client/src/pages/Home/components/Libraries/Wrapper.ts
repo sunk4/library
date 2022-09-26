@@ -22,9 +22,9 @@ const Wrapper = styled.section`
       }
       button {
         background-color: var(--red-light);
+        color: var(--white);
         padding: 0.5rem;
         border-radius: 5px;
-        color: var(--white);
         border: none;
         cursor: pointer;
       }
@@ -38,8 +38,9 @@ const Wrapper = styled.section`
 
     a {
       color: inherit;
-      text-decoration: inherit;   
-      text-align:center;
+      text-decoration: inherit;
+      text-align: center;
+
       button {
         background-color: var(--primary-500);
         padding: 0.5rem;
@@ -47,6 +48,8 @@ const Wrapper = styled.section`
         color: var(--white);
         border: none;
         cursor: pointer;
+        display: inline-block;
+        width: 100%;
       }
       button:hover {
         background-color: var(--primary-600);

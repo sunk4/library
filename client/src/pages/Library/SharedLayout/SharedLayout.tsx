@@ -7,11 +7,9 @@ import Header from '../components/Header/Header'
 const SharedLayout: React.FunctionComponent = () => {
   return (
     <Wrapper>
-      <main>
-        <Header />
-        <Navbar />
-        <Outlet />
-      </main>
+      <Header />
+      <Navbar />
+      <Outlet />
     </Wrapper>
   )
 }

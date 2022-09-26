@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import {
   selectLibrary,
   updateLibraryAsync,
@@ -10,8 +10,13 @@ import {
 import Wrapper from './Wrapper'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+interface IProps {
+  setOpenModalEditLibrary: Dispatch<SetStateAction<boolean>>
+}
 
-const FormUpdateLibrary: React.FunctionComponent = () => {
+const FormUpdateLibrary: React.FunctionComponent<IProps> = (
+  { setOpenModalEditLibrary }
+) => {
   const library: any = useAppSelector(selectLibrary)
   const dispatch = useAppDispatch()
   const { _id } = library
@@ -41,11 +46,14 @@ const FormUpdateLibrary: React.FunctionComponent = () => {
       formik.values.libraryName = ''
       formik.values.address = ''
       formik.values.phoneNumber = ''
+      setOpenModalEditLibrary((prev)=>!prev)
     },
   })
   return (
-  
-      <Wrapper onSubmit={formik.handleSubmit}>
+    <Wrapper onSubmit={formik.handleSubmit}>
+      <h2>Update a library</h2>
+      <div>
+        <label>Name</label>
         <input
           name="libraryName"
           type="text"
@@ -54,7 +62,9 @@ const FormUpdateLibrary: React.FunctionComponent = () => {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
         />
-
+      </div>
+      <div>
+        <label>Address</label>
         <input
           name="address"
           type="text"
@@ -63,7 +73,9 @@ const FormUpdateLibrary: React.FunctionComponent = () => {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
         />
-
+      </div>
+      <div>
+        <label>Phone number</label>
         <input
           name="phoneNumber"
           type="text"
@@ -72,10 +84,12 @@ const FormUpdateLibrary: React.FunctionComponent = () => {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
         />
-
-        <button type="submit">Submit</button>
-      </Wrapper>
-   
+      </div>
+      <button type="submit">Submit</button>
+      <button onClick={() => setOpenModalEditLibrary((prev) => !prev)}>
+        Close
+      </button>
+    </Wrapper>
   )
 }
 

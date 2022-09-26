@@ -15,37 +15,48 @@ const Library: React.FunctionComponent = () => {
 
   const { _id: libraryId } = library
 
+  const handleDeleteBook = (id: string) => {
+    if (window.confirm('Are your sure u wanna delete a book?')) {
+      dispatch(deleteBookFromLibrary(id))
+    }
+  }
+
   let renderBooks = library.books?.map((book) => {
     const { _id, bookName, description, amount } = book
 
     return (
-      <div key={_id}>
+      <section key={_id}>
+        <div>
+          <h4>Name: {bookName}</h4>
+          <button className="btn-delete" onClick={() => handleDeleteBook(_id)}>
+            Delete book
+          </button>
+        </div>
+        <h4>Description: </h4>
+        <p>{description}</p>
+        <h4>Amount: {amount}</h4>
         <Link to={`/${libraryId}/book/${_id}`}>
-          <h4>{bookName}</h4>
-          <h4>{description}</h4>
-          <h4>{amount}</h4>
+          <button className="btn-open-book">Open details</button>
         </Link>
-        <button onClick={() => dispatch(deleteBookFromLibrary(_id))}>
-          Delete book
-        </button>
-      </div>
+      </section>
     )
   })
 
   return (
     <Wrapper>
-      <div>
-        <button onClick={() => setOpenCreateNewBook((prev) => !prev)}>
-          Create a new book
-        </button>
-        {openCreateNewBook && (
-          <FormCreateANewBook
-            setOpenCreateNewBook={setOpenCreateNewBook}
-            libraryId={libraryId}
-          />
-        )}
-      </div>
-      {renderBooks}
+      <button
+        className="btn-open-modal"
+        onClick={() => setOpenCreateNewBook((prev) => !prev)}
+      >
+        Create a new book
+      </button>
+      {openCreateNewBook && (
+        <FormCreateANewBook
+          setOpenCreateNewBook={setOpenCreateNewBook}
+          libraryId={libraryId}
+        />
+      )}
+      <div className="book-section">{renderBooks}</div>
     </Wrapper>
   )
 }
