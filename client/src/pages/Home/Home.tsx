@@ -16,12 +16,12 @@ const Home: React.FunctionComponent = () => {
 
   return (
     <Wrapper>
-      <section className="header">
+      <header>
         <h1>List of Libraries</h1>
         <button onClick={() => setShowCreateForm((prev) => !prev)}>
           {!showCreateForm ? 'Create a library' : 'Back to all libraries'}
         </button>
-      </section>
+      </header>
       {!showCreateForm ? (
         <Libraries />
       ) : (

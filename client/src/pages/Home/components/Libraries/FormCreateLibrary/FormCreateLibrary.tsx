@@ -44,36 +44,46 @@ const FormCreateLibrary: React.FunctionComponent<IProps> = ({
   })
   return (
     <Wrapper onSubmit={formik.handleSubmit}>
-      <input
-        name="libraryName"
-        type="text"
-        placeholder="Library name"
-        value={formik.values.libraryName || ''}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-      />
+      <h2>Create a new library</h2>
+      <div>
+        <label>Name:</label>
+        <input
+          name="libraryName"
+          type="text"
+          placeholder="Library name"
+          value={formik.values.libraryName || ''}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+        />
+      </div>
       {formik.touched.libraryName && formik.errors.libraryName ? (
         <p>{formik.errors.libraryName}</p>
       ) : null}
-      <input
-        name="address"
-        type="text"
-        placeholder="Address"
-        value={formik.values.address || ''}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-      />
+      <div>
+        <label>Address:</label>
+        <input
+          name="address"
+          type="text"
+          placeholder="Address"
+          value={formik.values.address || ''}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+        />
+      </div>
       {formik.touched.address && formik.errors.address ? (
         <p>{formik.errors.address}</p>
       ) : null}
-      <input
-        name="phoneNumber"
-        type="text"
-        placeholder="Phone Number"
-        value={formik.values.phoneNumber || ''}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-      />
+      <div>
+        <label>Phone Number:</label>
+        <input
+          name="phoneNumber"
+          type="text"
+          placeholder="Phone Number"
+          value={formik.values.phoneNumber || ''}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+        />
+      </div>
       {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
         <p>{formik.errors.phoneNumber}</p>
       ) : null}

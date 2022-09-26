@@ -18,7 +18,7 @@ const Libraries: React.FunctionComponent<IAppProps> = (props) => {
   const dispatch = useAppDispatch()
 
   const handleDeleteLibrary = (id: string) => {
-    let text = 'Are you u sure u want delete library?'
+    let text = 'Are you you sure you want to delete library?'
     if (window.confirm(text)) {
       dispatch(deleteLibraryAsync(id))
     } else {
@@ -26,26 +26,33 @@ const Libraries: React.FunctionComponent<IAppProps> = (props) => {
     }
   }
 
-
-
   let renderLibrary = libraries.map((library) => {
     const { libraryName, address, phoneNumber, _id, books } = library
 
     return (
-      <div key={_id}>
-        <h3>{libraryName}</h3>
+      <div className="library-section" key={_id}>
         <div>
-          <p>{address}</p>
-          <p>{phoneNumber}</p>
+          <h2>{libraryName}</h2>
+          <button onClick={() => handleDeleteLibrary(_id)}>
+            Delete Library
+          </button>
         </div>
-        <p>Number of books: {books?.length}</p>
+        <p>
+          Address: <span>{address}</span>
+        </p>
+        <p>
+          Contact: <span>{phoneNumber}</span>
+        </p>
+        <p>
+          Number of books: <span>{books?.length}</span>
+        </p>
+
         <Link
           to={`/${_id}`}
           onClick={() => dispatch(getSingleLibraryAsync(_id))}
         >
-          Go to library - {libraryName}
+          <button>Open details</button>
         </Link>
-        <button onClick={() => handleDeleteLibrary(_id)}>Delete Library</button>
       </div>
     )
   })

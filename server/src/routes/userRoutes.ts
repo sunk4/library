@@ -8,7 +8,7 @@ import {
 } from '../controllers/userController'
 
 
-router.route('/user/:id').get().post(createStudentAndAddHimToLibrary)
+router.route('/user/:id').post(createStudentAndAddHimToLibrary)
 router
   .route('/:id')
   .get(getSingleUser)
