@@ -49,23 +49,7 @@ const deleteBookFromLibrary = async (req: Request, res: Response) => {
   res.status(200).json(id)
 }
 
-const updateAmountsOfBooks = async (req: Request, res: Response) => {
-  const { id } = req.params
-  const { amount } = req.body
 
-  const book = await Book.findOne({ _id: id })
-  if (!book) {
-    throw new CustomError(`Book with id: ${id} does not exist`, 404)
-  }
-  if (amount < 0) {
-    throw new CustomError(`Amount have to be higher or equal to zero`, 400)
-  } else {
-    book.amount = amount
-    book.save()
-  }
-
-  res.status(200).json(book)
-}
 
 const borrowBookByUser = async (req: Request, res: Response) => {
   const { bookId, userId } = req.params
@@ -157,11 +141,35 @@ const getSingleBook = async (req: Request, res: Response) => {
   res.status(200).json( book )
 }
 
+
+const editBookInLibrary = async (req: Request, res: Response) => {
+  const { id } = req.params
+  const { bookName, description } = req.body
+
+  if (!bookName || !description) {
+    throw new CustomError('Please provide all values', 400)
+  }
+
+  const book = await Book.findOneAndUpdate(
+    { _id: id },
+    { bookName, description },
+    {
+      new: true,
+      runValidators: true,
+    }
+  )
+  if (!book) {
+    throw new CustomError(`User with id: ${id} does not exist`, 404)
+  }
+  res.status(200).json(book)
+}
+
+
 export {
   createBookAndItToLibrary,
-  deleteBookFromLibrary,
-  updateAmountsOfBooks,
+  deleteBookFromLibrary,  
   borrowBookByUser,
   returnTheBookByUser,
   getSingleBook,
+  editBookInLibrary
 }

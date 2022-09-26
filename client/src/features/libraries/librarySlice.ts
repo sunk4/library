@@ -101,7 +101,7 @@ export const updateLibraryAsync = createAsyncThunk(
 
 export const getSingleLibraryAsync = createAsyncThunk(
   'libraries/getSingleLibraryAsync',
-  async (id: string|undefined) => {
+  async (id: string | undefined) => {
     const response = await libraryApi.get(`library/${id}`)
     return response.data
   }
@@ -136,22 +136,6 @@ export const deleteBookFromLibrary = createAsyncThunk(
   }
 )
 
-type InputBookUpdate = {
-  _id?: string
-  amount: number
-}
-
-export const updateAmountsOfBooksAsync = createAsyncThunk(
-  'libraries/updateAmountsOfBooks',
-  async (data: InputBookUpdate) => {
-    const { amount, _id: libraryId } = data
-    const response = await libraryApi.patch(`/book/${libraryId}`, {
-      amount,
-    })
-    return response.data
-  }
-)
-
 export const deleteStudentFromLibraryAsync = createAsyncThunk(
   'libraries/deleteStudentFromLibraryAsync',
   async (_id: string) => {
@@ -174,7 +158,6 @@ export const createStudentAndAddHimToLibraryAsync = createAsyncThunk(
     const response = await libraryApi.post(`/user/user/${libraryId}`, {
       firstName,
       lastName,
-         
     })
     return response.data
   }
@@ -221,12 +204,7 @@ const librarySlice = createSlice({
       )
       state.library.books = newBooksInLibrary
     })
-    builder.addCase(updateAmountsOfBooksAsync.fulfilled, (state, action) => {
-      const updatedBookInLibrary = state.library.books?.map((book) =>
-        book._id === action.payload._id ? action.payload : book
-      )
-      state.library.books = updatedBookInLibrary
-    })
+    
     builder.addCase(
       deleteStudentFromLibraryAsync.fulfilled,
       (state, action) => {
@@ -238,12 +216,12 @@ const librarySlice = createSlice({
         state.library.users = newStudentsInLibrary
       }
     )
-     builder.addCase(
-       createStudentAndAddHimToLibraryAsync.fulfilled,
-       (state, action) => {
-         state.library.users = [...(state.library.users ?? []), action.payload]
-       }
-     )
+    builder.addCase(
+      createStudentAndAddHimToLibraryAsync.fulfilled,
+      (state, action) => {
+        state.library.users = [...(state.library.users ?? []), action.payload]
+      }
+    )
   },
 })
 
