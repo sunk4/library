@@ -10,11 +10,13 @@ import FormEditUser from './components/FormEditUser/FormEditUser'
 
 interface IAppProps {}
 
-const User: React.FunctionComponent<IAppProps> = (props) => {
+const Student: React.FunctionComponent<IAppProps> = (props) => {
   const dispatch = useAppDispatch()
   const student = useAppSelector(selectUser)
   const [openEditUser, setOpenEditUser] = useState<boolean>(false)
   const { firstName, lastName, books } = student
+  console.log(books);
+  
 
   const { studentId } = useParams()
 
@@ -35,12 +37,9 @@ const User: React.FunctionComponent<IAppProps> = (props) => {
       </h2>
 
       <h3>List of books borrowed</h3>
-      {books.map((book, index) => {
-        const { bookName } = book
-        return <div key={index}>{bookName}</div>
-      })}
+
     </Wrapper>
   )
 }
 
-export default User
+export default Student

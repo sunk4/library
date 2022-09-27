@@ -27,7 +27,7 @@ const Students: React.FunctionComponent<IAppProps> = (props) => {
     const { _id, firstName, lastName } = student
 
     return (
-      <section>
+      <section key={_id}>
         <div className="section-user">
           <h4>
            Name: {firstName} {lastName}

@@ -73,7 +73,7 @@ const editUserInLibrary = async (req: Request, res: Response) => {
 const getSingleUser = async (req: Request, res: Response) => {
   const { id } = req.params
 
-  const user = await User.find({ _id: id }).populate('books')
+  const user = await User.find({ _id: id }).populate('books._id')
   if (!user) {
     throw new CustomError(`User with id: ${id} does not exist`, 404)
   }

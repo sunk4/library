@@ -51,46 +51,50 @@ const deleteBookFromLibrary = async (req: Request, res: Response) => {
 
 const borrowBookByUser = async (req: Request, res: Response) => {
   const { bookId:_id, userId } = req.params
-
-  
-
+ 
   const date = new Date()
-
   const returnedBook = false
 
-  const user = await User.findOneAndUpdate(
-    { _id: userId },
-    {
-      $push: {
-        books: {  _id, date, returnedBook },
-      },
-    },
-    { new: true, runValidators: true }
-  )
+  const checkAmountOfBook = await Book.findOne({ _id })
 
-  if (!user) {
-    throw new CustomError(`User with id: ${userId} does not exist`, 404)
-  }
+  if (checkAmountOfBook?.amount === 0) {
+   throw new CustomError("No book in stock", 400)
+  } else {
+     const user = await User.findOneAndUpdate(
+       { _id: userId },
+       {
+         $push: {
+           books: { _id, date, returnedBook },
+         },
+       },
+       { new: true, runValidators: true }
+     )
 
-  const book = await Book.findOneAndUpdate(
-    {
-      _id,
-    },
-    {
-      user: userId,
-      $set: {
-        amount: 0,
-      },
-    },
-    {
-      new: true,
-      runValidators: true,
-    }
-  )
-  if (!book) {
-    throw new CustomError(`Book with id: ${_id} does not exist`, 404)
-  }
-  res.status(200).json({ book })
+     if (!user) {
+       throw new CustomError(`User with id: ${userId} does not exist`, 404)
+     }
+
+     const book = await Book.findOneAndUpdate(
+       {
+         _id,
+       },
+       {
+         user: userId,
+         $set: {
+           amount: 0,
+         },
+       },
+       {
+         new: true,
+         runValidators: true,
+       }
+     )
+     if (!book) {
+       throw new CustomError(`Book with id: ${_id} does not exist`, 404)
+     }
+     res.status(200).json({ book })
+ }
+  
 }
 
 const returnTheBookByUser = async (req: Request, res: Response) => {
@@ -141,7 +145,7 @@ const returnTheBookByUser = async (req: Request, res: Response) => {
 
 const getSingleBook = async (req: Request, res: Response) => {
   const { id } = req.params
-  const book = await Book.findOne({ _id: id }).populate('users')
+  const book = await Book.findOne({ _id: id }).populate('user')
 
   res.status(200).json(book)
 }

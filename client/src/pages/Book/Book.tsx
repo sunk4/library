@@ -6,8 +6,7 @@ import {
   getSingleBookAsync,
 } from '../../features/libraries/bookSlice'
 import { useParams } from 'react-router-dom'
-import FormEditBook from "./FormEditBook/FormEditBook"
-
+import FormEditBook from './FormEditBook/FormEditBook'
 
 interface IAppProps {}
 
@@ -15,7 +14,8 @@ const Book: React.FunctionComponent<IAppProps> = (props) => {
   const dispatch = useAppDispatch()
   const book = useAppSelector(selectBook)
   const [openEditBook, setOpenEditBook] = useState<boolean>(false)
-  const { bookName, description, users } = book
+  const { bookName, description } = book
+  
 
   const { bookId } = useParams()
 
@@ -33,15 +33,10 @@ const Book: React.FunctionComponent<IAppProps> = (props) => {
       )}
       <h2>Name:{bookName}</h2>
       <p>Description: {description}</p>
-      <h3>Student who borrowed this book</h3>
-      {users.map((user, index) => {
-        const { firstName, lastName } = user
-        return (
-          <div key={index}>
-            {firstName} {lastName}
-          </div>
-        )
-      })}
+      <h3>Student who currently have this book</h3>
+      <h4>
+       Name: {book.user?.firstName} {book.user?.lastName}
+      </h4>
     </Wrapper>
   )
 }

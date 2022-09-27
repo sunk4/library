@@ -16,7 +16,7 @@ const createLibrary = async (req: Request, res: Response) => {
 const updateLibrary = async (req: Request, res: Response) => {
   const { id } = req.params
 
-  const library = await Library.findOne({ _id: id })
+  const library = await Library.findOne({ _id: id }).populate('books users' )
 
   if (!library) {
     throw new CustomError(`Library with ${id} does not exist`, 404)

@@ -14,9 +14,9 @@ interface IProps {
   setOpenModalEditLibrary: Dispatch<SetStateAction<boolean>>
 }
 
-const FormUpdateLibrary: React.FunctionComponent<IProps> = (
-  { setOpenModalEditLibrary }
-) => {
+const FormUpdateLibrary: React.FunctionComponent<IProps> = ({
+  setOpenModalEditLibrary,
+}) => {
   const library: any = useAppSelector(selectLibrary)
   const dispatch = useAppDispatch()
   const { _id } = library
@@ -46,7 +46,7 @@ const FormUpdateLibrary: React.FunctionComponent<IProps> = (
       formik.values.libraryName = ''
       formik.values.address = ''
       formik.values.phoneNumber = ''
-      setOpenModalEditLibrary((prev)=>!prev)
+      setOpenModalEditLibrary((prev) => !prev)
     },
   })
   return (

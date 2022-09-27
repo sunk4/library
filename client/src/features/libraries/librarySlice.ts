@@ -184,9 +184,9 @@ const librarySlice = createSlice({
       )
       state.libraries = newLibraries
     })
-    builder.addCase(updateLibraryAsync.fulfilled, (state, action) => {
-      state.library = action.payload
-    })
+    builder.addCase(updateLibraryAsync.fulfilled, (state, action) => {      
+    state.library = action.payload
+  })
     builder.addCase(getSingleLibraryAsync.fulfilled, (state, action) => {
       state.library = action.payload
     })
