@@ -1,4 +1,9 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
+import {
+  createSlice,
+  PayloadAction,
+  createAsyncThunk,
+  current,
+} from '@reduxjs/toolkit'
 import libraryApi from '../../common/libraryApi'
 import type { RootState } from '../store'
 
@@ -28,11 +33,23 @@ export const editSingleUserAsync = createAsyncThunk(
   }
 )
 
+export const returnBookByStudentAsync = createAsyncThunk(
+  'user/returnBookByStudentAsync',
+  async (data: any) => {
+    const { _id, studentId } = data
+
+    const response = await libraryApi.patch(
+      `/book/return/${_id._id}/user/${studentId}`
+    )
+    return response.data
+  }
+)
+
 interface User {
   _id: string
   firstName: string
   lastName: string
-  books:[]
+  books: []
 }
 
 interface UserSliceState {
@@ -40,19 +57,22 @@ interface UserSliceState {
 }
 
 const initialState: UserSliceState = {
-  user: { _id: '', firstName: '', lastName: '',books:[] },
+  user: { _id: '', firstName: '', lastName: '', books: [] },
 }
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {},
-  extraReducers: (builder) => { 
-    builder.addCase(getSingleUserAsync.fulfilled, (state, action) => {   
+  extraReducers: (builder) => {
+    builder.addCase(getSingleUserAsync.fulfilled, (state, action) => {
       state.user = action.payload[0]
     })
     builder.addCase(editSingleUserAsync.fulfilled, (state, action) => {
       state.user = action.payload
+    })
+    builder.addCase(returnBookByStudentAsync.fulfilled, (state, action) => { 
+    
     })
   },
 })

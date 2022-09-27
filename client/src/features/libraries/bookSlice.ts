@@ -29,8 +29,8 @@ export const editSingleBookAsync = createAsyncThunk(
 )
 
 interface User {
-  firstName: string,
-  lastName:string
+  firstName: string
+  lastName: string
 }
 
 interface Book {
@@ -46,7 +46,13 @@ interface BookSliceState {
 }
 
 const initialState: BookSliceState = {
-  book: { _id: '', bookName: '', description: '', amount: 0, user: {firstName:"",lastName:""} },
+  book: {
+    _id: '',
+    bookName: '',
+    description: '',
+    amount: 0,
+    user: { firstName: '', lastName: '' },
+  },
 }
 
 const bookSlice = createSlice({

@@ -50,51 +50,50 @@ const deleteBookFromLibrary = async (req: Request, res: Response) => {
 }
 
 const borrowBookByUser = async (req: Request, res: Response) => {
-  const { bookId:_id, userId } = req.params
- 
+  const { bookId: _id, userId } = req.params
+
   const date = new Date()
   const returnedBook = false
 
   const checkAmountOfBook = await Book.findOne({ _id })
 
   if (checkAmountOfBook?.amount === 0) {
-   throw new CustomError("No book in stock", 400)
+    throw new CustomError('No book in stock', 400)
   } else {
-     const user = await User.findOneAndUpdate(
-       { _id: userId },
-       {
-         $push: {
-           books: { _id, date, returnedBook },
-         },
-       },
-       { new: true, runValidators: true }
-     )
+    const user = await User.findOneAndUpdate(
+      { _id: userId },
+      {
+        $push: {
+          books: { _id, date, returnedBook },
+        },
+      },
+      { new: true, runValidators: true }
+    )
 
-     if (!user) {
-       throw new CustomError(`User with id: ${userId} does not exist`, 404)
-     }
+    if (!user) {
+      throw new CustomError(`User with id: ${userId} does not exist`, 404)
+    }
 
-     const book = await Book.findOneAndUpdate(
-       {
-         _id,
-       },
-       {
-         user: userId,
-         $set: {
-           amount: 0,
-         },
-       },
-       {
-         new: true,
-         runValidators: true,
-       }
-     )
-     if (!book) {
-       throw new CustomError(`Book with id: ${_id} does not exist`, 404)
-     }
-     res.status(200).json({ book })
- }
-  
+    const book = await Book.findOneAndUpdate(
+      {
+        _id,
+      },
+      {
+        user: userId,
+        $set: {
+          amount: 0,
+        },
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    )
+    if (!book) {
+      throw new CustomError(`Book with id: ${_id} does not exist`, 404)
+    }
+    res.status(200).json(book)
+  }
 }
 
 const returnTheBookByUser = async (req: Request, res: Response) => {
@@ -115,17 +114,11 @@ const returnTheBookByUser = async (req: Request, res: Response) => {
     { new: true, runValidators: true }
   )
 
-
-
-
   const book = await Book.findOneAndUpdate(
     {
       _id: bookId,
     },
     {
-      $unset: {
-        user: 1,
-      },
       $set: {
         amount: 1,
       },
