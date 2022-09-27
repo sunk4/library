@@ -15,7 +15,7 @@ const Book: React.FunctionComponent<IAppProps> = (props) => {
   const dispatch = useAppDispatch()
   const book = useAppSelector(selectBook)
   const [openEditBook, setOpenEditBook] = useState<boolean>(false)
-  const { bookName, description, users, amount } = book
+  const { bookName, description, users } = book
 
   const { bookId } = useParams()
 
@@ -26,7 +26,7 @@ const Book: React.FunctionComponent<IAppProps> = (props) => {
   return (
     <Wrapper>
       <button onClick={() => setOpenEditBook((prev) => !prev)}>
-        Edit user
+        Edit book
       </button>
       {openEditBook && (
         <FormEditBook setOpenEditBook={setOpenEditBook} {...book} />

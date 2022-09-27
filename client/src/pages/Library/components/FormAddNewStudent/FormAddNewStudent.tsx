@@ -40,35 +40,39 @@ const FormCreateLibrary: React.FunctionComponent<IProps> = ({
       )
       formik.values.firstName = ''
       formik.values.lastName = ''
-
       setOpenAddNewStudent(false)
     },
   })
   return (
     <Wrapper onSubmit={formik.handleSubmit}>
-      <input
-        name="firstName"
-        type="text"
-        placeholder="First name"
-        value={formik.values.firstName || ''}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-      />
-      {formik.touched.firstName && formik.errors.firstName ? (
-        <p>{formik.errors.firstName}</p>
-      ) : null}
-      <input
-        name="lastName"
-        type="text"
-        placeholder="Last name"
-        value={formik.values.lastName || ''}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-      />
-      {formik.touched.lastName && formik.errors.lastName ? (
-        <p>{formik.errors.lastName}</p>
-      ) : null}
-
+      <div>
+        <label>First Name</label>
+        <input
+          name="firstName"
+          type="text"
+          placeholder="First name"
+          value={formik.values.firstName || ''}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+        />
+        {formik.touched.firstName && formik.errors.firstName ? (
+          <p>{formik.errors.firstName}</p>
+        ) : null}
+      </div>
+      <div>
+        <label>Last name</label>
+        <input
+          name="lastName"
+          type="text"
+          placeholder="Last name"
+          value={formik.values.lastName || ''}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+        />
+        {formik.touched.lastName && formik.errors.lastName ? (
+          <p>{formik.errors.lastName}</p>
+        ) : null}
+      </div>
       <button type="submit">Submit</button>
     </Wrapper>
   )

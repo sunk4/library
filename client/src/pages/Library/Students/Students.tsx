@@ -30,7 +30,7 @@ const Students: React.FunctionComponent<IAppProps> = (props) => {
       <section>
         <div className="section-user">
           <h4>
-            {firstName} {lastName}
+           Name: {firstName} {lastName}
           </h4>
           <button
             className="btn-delete"

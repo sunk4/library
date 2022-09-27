@@ -53,30 +53,37 @@ const FormEditUser: React.FunctionComponent<IProps> = ({
   })
   return (
     <Wrapper onSubmit={formik.handleSubmit}>
-      <input
-        name="bookName"
-        type="text"
-        placeholder="Book name"
-        value={formik.values.bookName || ''}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-      />
-      {formik.touched.bookName && formik.errors.bookName ? (
-        <p>{formik.errors.bookName}</p>
-      ) : null}
-      <input
-        name="description"
-        type="text"
-        placeholder="Description"
-        value={formik.values.description || ''}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-      />
-      {formik.touched.description && formik.errors.description ? (
-        <p>{formik.errors.description}</p>
-      ) : null}
-
+      <h2>Edit a book</h2>
+      <div>
+        <label>Book name</label>
+        <input
+          name="bookName"
+          type="text"
+          placeholder="Book name"
+          value={formik.values.bookName || ''}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+        />
+        {formik.touched.bookName && formik.errors.bookName ? (
+          <p>{formik.errors.bookName}</p>
+        ) : null}
+      </div>
+      <div>
+        <label>Description</label>
+        <input
+          name="description"
+          type="text"
+          placeholder="Description"
+          value={formik.values.description || ''}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+        />
+        {formik.touched.description && formik.errors.description ? (
+          <p>{formik.errors.description}</p>
+        ) : null}
+      </div>
       <button type="submit">Submit</button>
+      <button type="button" onClick={() => setOpenEditBook((prev)=>!prev)}>Close</button>
     </Wrapper>
   )
 }
