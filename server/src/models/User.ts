@@ -1,4 +1,4 @@
-import mongoose,{Schema} from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
 
 interface User {
   bookName: string
@@ -22,8 +22,12 @@ const UserSchema = new mongoose.Schema(
     },
     books: [
       {
-        type: Schema.Types.ObjectId,
-        ref: 'Book',
+        _id: {
+          type: Schema.Types.ObjectId,
+          ref: 'Book',
+        },
+        date: { type: Date },
+        returnedBook: { type: Boolean,required:[true,"Please provide if book was returned"] },
       },
     ],
   },

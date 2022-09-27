@@ -49,16 +49,37 @@ const deleteBookFromLibrary = async (req: Request, res: Response) => {
   res.status(200).json(id)
 }
 
-
-
 const borrowBookByUser = async (req: Request, res: Response) => {
-  const { bookId, userId } = req.params
+  const { bookId:_id, userId } = req.params
+
+  
+
+  const date = new Date()
+
+  const returnedBook = false
 
   const user = await User.findOneAndUpdate(
     { _id: userId },
     {
       $push: {
-        books: bookId,
+        books: {  _id, date, returnedBook },
+      },
+    },
+    { new: true, runValidators: true }
+  )
+
+  if (!user) {
+    throw new CustomError(`User with id: ${userId} does not exist`, 404)
+  }
+
+  const book = await Book.findOneAndUpdate(
+    {
+      _id,
+    },
+    {
+      user: userId,
+      $set: {
+        amount: 0,
       },
     },
     {
@@ -66,62 +87,46 @@ const borrowBookByUser = async (req: Request, res: Response) => {
       runValidators: true,
     }
   )
-
-  if (!user) {
-    throw new CustomError(`User with id: ${userId} does not exist`, 404)
+  if (!book) {
+    throw new CustomError(`Book with id: ${_id} does not exist`, 404)
   }
-
-  const bookCount: any = await Book.findOne({ _id: bookId })
-
-  if (bookCount?.amount <= 0) {
-    throw new CustomError(`No stock of this book in warehouse`, 404)
-  } else {
-    const book = await Book.findOneAndUpdate(
-      {
-        _id: bookId,
-      },
-      {
-        $push: {
-          users: userId,
-        },  
-          
-            $inc: {
-              amount: -1,
-            },
-        
-     
-      },
-      {
-        new: true,
-        runValidators: true,
-      }
-    )
-    if (!book) {
-      throw new CustomError(`Book with id: ${bookId} does not exist`, 404)
-    }
-    res.status(200).json({ book })
-  }
+  res.status(200).json({ book })
 }
 
 const returnTheBookByUser = async (req: Request, res: Response) => {
   const { bookId, userId } = req.params
-  const user = await User.findOne({ _id: userId })
 
-  if (!user) {
-    throw new CustomError(`User with id: ${userId} does not exist`, 404)
-  }
+  const date = new Date()
+
+  const returnedBook = true
+  const user = await User.findOneAndUpdate(
+    { _id: userId, 'books._id': bookId },
+    {
+      $set: {
+        'books.$._id': bookId,
+        'books.$.date': date,
+        'books.$.returnedBook': returnedBook,
+      },
+    },
+    { new: true, runValidators: true }
+  )
+
+
+
+
   const book = await Book.findOneAndUpdate(
     {
       _id: bookId,
     },
     {
-      $pull: {
-        users: userId,
+      $unset: {
+        user: 1,
       },
-      $inc: {
+      $set: {
         amount: 1,
       },
     },
+
     {
       new: true,
       runValidators: true,
@@ -138,9 +143,8 @@ const getSingleBook = async (req: Request, res: Response) => {
   const { id } = req.params
   const book = await Book.findOne({ _id: id }).populate('users')
 
-  res.status(200).json( book )
+  res.status(200).json(book)
 }
-
 
 const editBookInLibrary = async (req: Request, res: Response) => {
   const { id } = req.params
@@ -164,12 +168,11 @@ const editBookInLibrary = async (req: Request, res: Response) => {
   res.status(200).json(book)
 }
 
-
 export {
   createBookAndItToLibrary,
-  deleteBookFromLibrary,  
+  deleteBookFromLibrary,
   borrowBookByUser,
   returnTheBookByUser,
   getSingleBook,
-  editBookInLibrary
+  editBookInLibrary,
 }

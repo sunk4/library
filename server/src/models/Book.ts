@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 
- interface Book {
+interface Book {
   bookName: string
   description: string
   amount: number
@@ -22,14 +22,13 @@ const BookSchema = new mongoose.Schema(
     },
     amount: {
       type: Number,
+      min:0,
       default: 1,
     },
-    users: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-      },
-    ],
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
   },
   { timestamps: true }
 )
