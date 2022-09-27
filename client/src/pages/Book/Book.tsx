@@ -31,9 +31,9 @@ const Book: React.FunctionComponent<IAppProps> = (props) => {
       {openEditBook && (
         <FormEditBook setOpenEditBook={setOpenEditBook} {...book} />
       )}
-      <h4>{bookName}</h4>
-      <p>{description}</p>
-      <h2>List of books borrowed</h2>
+      <h2>Name:{bookName}</h2>
+      <p>Description: {description}</p>
+      <h3>Student who borrowed this book</h3>
       {users.map((user, index) => {
         const { firstName, lastName } = user
         return (

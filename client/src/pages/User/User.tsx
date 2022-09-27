@@ -30,9 +30,11 @@ const User: React.FunctionComponent<IAppProps> = (props) => {
       {openEditUser && (
         <FormEditUser setOpenEditUser={setOpenEditUser} {...student} />
       )}
-      <h4>{firstName}</h4>
-      <h4>{lastName}</h4>
-      <h2>List of books borrowed</h2>
+      <h2>
+      Name:  {firstName} {lastName}
+      </h2>
+
+      <h3>List of books borrowed</h3>
       {books.map((book, index) => {
         const { bookName } = book
         return <div key={index}>{bookName}</div>
