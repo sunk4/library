@@ -45,13 +45,15 @@ const Student: React.FunctionComponent<IAppProps> = (props) => {
       </div>
       <h3>List of books borrowed</h3>
       <section className="section-borrowed-books">
-        {books.map((book: any) => {
+        {books?.map((book: any) => {
           const { date, returnedBook, _id } = book
-          const { _id: bookId } = _id
+         
+          
+         const bookId = book?._id?._id
 
           return (
-            <div key={_id._id}>
-              <h4>Book name: {_id.bookName}</h4>
+            <div key={Math.random()}>
+              <h4>Book name: {_id?.bookName}</h4>
               {returnedBook && <h4>Date: Book was returned</h4>}
               {!returnedBook && (
                 <>

@@ -1,7 +1,10 @@
 import React, { useState, Dispatch, SetStateAction } from 'react'
 import Wrapper from './Wrapper'
 import { selectLibrary } from '../../../../features/libraries/librarySlice'
-import { borrowBookByStudentAsync } from '../../../../features/libraries/userSlice'
+import {
+  borrowBookByStudentAsync,
+  
+} from '../../../../features/libraries/userSlice'
 import {
   useAppSelector,
   useAppDispatch,
@@ -32,12 +35,14 @@ const FormBorrowBook: React.FunctionComponent<IAppProps> = ({
     setBookId(value)
   }
 
+
   return (
     <Wrapper>
       <h2>Borrow Book</h2>
       <label>Pick book you want to borrow</label>
       <select name="id" value={bookId} onChange={handleChange}>
-        {books.map((book: any) => {
+        <option>Pick book</option>
+        {books?.map((book: any) => {
           const { _id, bookName, amount } = book
 
           return (

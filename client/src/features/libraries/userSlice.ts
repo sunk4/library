@@ -65,7 +65,7 @@ interface User {
   _id: string
   firstName: string
   lastName: string
-  books: []
+  books: any
 }
 
 interface UserSliceState {
@@ -88,10 +88,11 @@ const userSlice = createSlice({
       state.user = action.payload
     })
     builder.addCase(returnBookByStudentAsync.fulfilled, (state, action) => {
-
-      
+      state.user.books = [...action.payload.books]
     })
-    builder.addCase(borrowBookByStudentAsync.fulfilled, (state, action) => {})
+    builder.addCase(borrowBookByStudentAsync.fulfilled, (state, action) => {
+      state.user.books = [...state.user.books, action.payload]
+    })
   },
 })
 

@@ -21,6 +21,11 @@ const Wrapper = styled.section`
   .section-borrowed-books {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    gap:1rem;
+    div{
+      background-color: var(--white);
+      border-radius: 10px;
+    }
   }
   @media (max-width: 580px) {
     .section-borrowed-books {

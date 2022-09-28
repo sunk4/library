@@ -112,7 +112,7 @@ const returnTheBookByUser = async (req: Request, res: Response) => {
       },
     },
     { new: true, runValidators: true }
-  )
+  ).populate('books._id')
 
   const book = await Book.findOneAndUpdate(
     {
@@ -133,7 +133,7 @@ const returnTheBookByUser = async (req: Request, res: Response) => {
     throw new CustomError(`Book with id: ${bookId} does not exist`, 404)
   }
 
-  res.status(200).json({ book })
+  res.status(200).json(user)
 }
 
 const getSingleBook = async (req: Request, res: Response) => {
