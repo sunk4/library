@@ -15,22 +15,23 @@ interface Libraries {
   phoneNumber: string
   books: string[]
 }
-
-type Library = {
-  _id?: string
-  libraryName?: string
-  address?: string
-  phoneNumber?: string
-  books?: Book[]
-  users?: User[]
-}
-
 interface Book {
   _id: string
   bookName: string
   description: string
   amount: number
 }
+
+type Library = {
+  _id?: string
+  libraryName?: string
+  address?: string
+  phoneNumber?: string
+  books?: any
+  users?: User[]
+}
+
+
 interface User {
   _id: string
   firstName: string
@@ -198,7 +199,7 @@ const librarySlice = createSlice({
     )
     builder.addCase(deleteBookFromLibrary.fulfilled, (state, action) => {
       const newBooksInLibrary = state.library.books?.filter(
-        (book) => book._id !== action.payload
+        (book:any) => book._id !== action.payload
       )
       state.library.books = newBooksInLibrary
     })

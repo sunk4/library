@@ -4,12 +4,12 @@ import styled from 'styled-components'
 const Wrapper = styled.section`
   padding-left: 2rem;
   margin-top: 2rem;
-  .header{
+  .header {
     display: flex;
     gap: 2rem;
     align-items: center;
   }
-  
+
   button {
     padding: 0.7rem;
     border-radius: 10px;
@@ -21,6 +21,12 @@ const Wrapper = styled.section`
   .section-borrowed-books {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+  }
+  @media (max-width: 580px) {
+    .section-borrowed-books {
+    
+      grid-template-columns: 1fr
+    }
   }
 `
 export default Wrapper

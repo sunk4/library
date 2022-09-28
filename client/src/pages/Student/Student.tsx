@@ -9,6 +9,7 @@ import {
 } from '../../features/libraries/userSlice'
 import { useParams } from 'react-router-dom'
 import FormEditUser from './components/FormEditUser/FormEditUser'
+import FormBorrowBook from './components/FormBorrowBook/FormBorrowBook'
 
 interface IAppProps {}
 
@@ -16,6 +17,7 @@ const Student: React.FunctionComponent<IAppProps> = (props) => {
   const dispatch = useAppDispatch()
   const student = useAppSelector(selectUser)
   const [openEditUser, setOpenEditUser] = useState<boolean>(false)
+  const [openFormBorrowBook, setOpenFormBorrowBook] = useState<boolean>(false)
   const { firstName, lastName, books } = student
 
   const { studentId } = useParams()
@@ -23,11 +25,6 @@ const Student: React.FunctionComponent<IAppProps> = (props) => {
   useEffect(() => {
     dispatch(getSingleUserAsync(studentId))
   }, [dispatch, studentId])
-
- 
-    // dispatch(returnBookByStudentAsync({ studentId, _id }))
-    
-
 
   return (
     <Wrapper>
@@ -37,18 +34,20 @@ const Student: React.FunctionComponent<IAppProps> = (props) => {
       {openEditUser && (
         <FormEditUser setOpenEditUser={setOpenEditUser} {...student} />
       )}
-      <div className='header'>
+      <div className="header">
         <h2>
           Name: {firstName} {lastName}
         </h2>
-        <button>Borrow Book</button>
+        <button onClick={() => setOpenFormBorrowBook((prev) => !prev)}>
+          Borrow Book
+        </button>
+        {openFormBorrowBook && <FormBorrowBook />}
       </div>
       <h3>List of books borrowed</h3>
       <section className="section-borrowed-books">
         {books.map((book: any) => {
           const { date, returnedBook, _id } = book
-    const {_id:bookId} = _id
-          
+          const { _id: bookId } = _id
 
           return (
             <div key={_id._id}>
@@ -63,7 +62,11 @@ const Student: React.FunctionComponent<IAppProps> = (props) => {
                     </Moment>{' '}
                     please return a book
                   </h4>
-                  <button >
+                  <button
+                    onClick={() => {
+                      dispatch(returnBookByStudentAsync({ studentId, bookId }))
+                    }}
+                  >
                     Return book
                   </button>
                 </>

@@ -21,7 +21,7 @@ const Library: React.FunctionComponent = () => {
     }
   }
 
-  let renderBooks = library.books?.map((book) => {
+  let renderBooks = library.books?.map((book:any) => {
     const { _id, bookName, description, amount } = book
 
     return (

@@ -33,13 +33,29 @@ export const editSingleUserAsync = createAsyncThunk(
   }
 )
 
+interface returnBorrowBook {
+  bookId: string
+  studentId?: string
+}
+
 export const returnBookByStudentAsync = createAsyncThunk(
   'user/returnBookByStudentAsync',
-  async (data: any) => {
-    const { _id, studentId } = data
+  async (data: returnBorrowBook) => {
+    const { bookId, studentId } = data
 
     const response = await libraryApi.patch(
-      `/book/return/${_id._id}/user/${studentId}`
+      `/book/return/${bookId}/user/${studentId}`
+    )
+    return response.data
+  }
+)
+
+export const borrowBookByStudentAsync = createAsyncThunk(
+  'user/borrowBookByStudentAsync',
+  async (data: returnBorrowBook) => {
+    const { bookId, studentId } = data
+    const response = await libraryApi.patch(
+      `/book/borrow/${bookId}/user/${studentId}`
     )
     return response.data
   }
@@ -71,9 +87,8 @@ const userSlice = createSlice({
     builder.addCase(editSingleUserAsync.fulfilled, (state, action) => {
       state.user = action.payload
     })
-    builder.addCase(returnBookByStudentAsync.fulfilled, (state, action) => { 
-    
-    })
+    builder.addCase(returnBookByStudentAsync.fulfilled, (state, action) => {})
+    builder.addCase(borrowBookByStudentAsync.fulfilled, (state, action) => {})
   },
 })
 
