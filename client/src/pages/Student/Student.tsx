@@ -41,7 +41,7 @@ const Student: React.FunctionComponent<IAppProps> = (props) => {
         <button onClick={() => setOpenFormBorrowBook((prev) => !prev)}>
           Borrow Book
         </button>
-        {openFormBorrowBook && <FormBorrowBook />}
+        {openFormBorrowBook && <FormBorrowBook setOpenFormBorrowBook={setOpenFormBorrowBook} />}
       </div>
       <h3>List of books borrowed</h3>
       <section className="section-borrowed-books">
