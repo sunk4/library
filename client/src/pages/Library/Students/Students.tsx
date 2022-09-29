@@ -28,9 +28,9 @@ const Students: React.FunctionComponent<IAppProps> = (props) => {
 
     return (
       <section key={_id}>
-        <div className="section-user">
+        <div data-cy="section-user" className="section-user">
           <h4>
-           Name: {firstName} {lastName}
+            Name: {firstName} {lastName}
           </h4>
           <button
             className="btn-delete"

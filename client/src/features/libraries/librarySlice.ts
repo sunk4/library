@@ -1,9 +1,4 @@
-import {
-  createSlice,
-  PayloadAction,
-  createAsyncThunk,
-  current,
-} from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 import libraryApi from '../../common/libraryApi'
 import type { RootState } from '../store'
@@ -15,12 +10,6 @@ interface Libraries {
   phoneNumber: string
   books: string[]
 }
-interface Book {
-  _id: string
-  bookName: string
-  description: string
-  amount: number
-}
 
 type Library = {
   _id?: string
@@ -30,7 +19,6 @@ type Library = {
   books?: any
   users?: User[]
 }
-
 
 interface User {
   _id: string
@@ -185,9 +173,9 @@ const librarySlice = createSlice({
       )
       state.libraries = newLibraries
     })
-    builder.addCase(updateLibraryAsync.fulfilled, (state, action) => {      
-    state.library = action.payload
-  })
+    builder.addCase(updateLibraryAsync.fulfilled, (state, action) => {
+      state.library = action.payload
+    })
     builder.addCase(getSingleLibraryAsync.fulfilled, (state, action) => {
       state.library = action.payload
     })
@@ -199,7 +187,7 @@ const librarySlice = createSlice({
     )
     builder.addCase(deleteBookFromLibrary.fulfilled, (state, action) => {
       const newBooksInLibrary = state.library.books?.filter(
-        (book:any) => book._id !== action.payload
+        (book: any) => book._id !== action.payload
       )
       state.library.books = newBooksInLibrary
     })
@@ -223,8 +211,6 @@ const librarySlice = createSlice({
     )
   },
 })
-
-export const {} = librarySlice.actions
 
 export const selectAllLibraries = (state: RootState) =>
   state.libraries.libraries

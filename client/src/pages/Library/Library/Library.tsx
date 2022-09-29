@@ -25,7 +25,7 @@ const Library: React.FunctionComponent = () => {
     const { _id, bookName, description, amount } = book
 
     return (
-      <section key={_id}>
+      <section data-cy="single-book-section" key={_id}>
         <div>
           <h4>Name: {bookName}</h4>
           <button className="btn-delete" onClick={() => handleDeleteBook(_id)}>

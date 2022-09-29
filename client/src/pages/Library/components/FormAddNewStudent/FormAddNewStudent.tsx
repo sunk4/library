@@ -45,6 +45,7 @@ const FormCreateLibrary: React.FunctionComponent<IProps> = ({
   })
   return (
     <Wrapper onSubmit={formik.handleSubmit}>
+      <h2>Add student to library</h2>
       <div>
         <label>First Name</label>
         <input
